@@ -29,6 +29,9 @@ dependencies {
 	// JSP 관련
 	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	
+	// CSV 관련
+	implementation 'com.opencsv:opencsv:5.5.2'	
 }
 
 tasks.named('test') {
