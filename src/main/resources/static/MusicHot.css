@@ -1,0 +1,36 @@
+@charset "EUC-KR";
+
+body{
+	width:100%;
+	height:100%;
+	color: gray;
+}
+.container1 {
+	display:flex;
+	justify-content: space-around
+	
+}
+.container1 .album1{
+	border:1px solid lightgray;
+	padding:15px 15px 15px 15px;
+	margin-bottom:20px;
+}
+.container1 .album2{
+	border:1px solid lightgray;
+	padding:15px 15px 15px 15px;
+	margin-bottom:20px;
+}
+.container2 {
+	display:flex;
+	justify-content: space-around
+}
+.container2 .album3{
+	border:1px solid lightgray;
+	padding:15px 15px 15px 15px;
+	margin-bottom:20px;
+}
+.container2 .album4{
+	border:1px solid lightgray;
+	padding:15px 15px 15px 15px;
+	margin-bottom:20px;
+}	
