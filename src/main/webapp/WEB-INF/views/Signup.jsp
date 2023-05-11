@@ -37,6 +37,7 @@
                 <option value="pop">팝</option>
                 <option value="folk">포크</option>
                 <option value="RNB">알앤비</option>
+                
                 <option value="soul">소울</option>
                 <option value="jazz">재즈</option>
                 <option value="metal">메탈</option>
