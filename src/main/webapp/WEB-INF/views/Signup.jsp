@@ -7,8 +7,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<c:if test="${param.error}">
+    <div class="alert alert-danger" role="alert">
+        이미 존재하는 ID입니다.
+    </div>
+</c:if>
 <body>
-	    <h1>Signup Page</h1>
+	    <h1>회원가입 페이지</h1>
     <form method="post" action="Signup">
         <div>
             <label for="id">ID:</label>
@@ -35,11 +40,11 @@
                 <option value="soul">소울</option>
                 <option value="jazz">재즈</option>
                 <option value="metal">메탈</option>
-                <option value="newage">뉴에이지</option>
-                
+                <option value="newage">뉴에이지</option>                
             </select>
         </div>
-        <button type="submit">Submit</button>
+        <input type="submit" value = "summit">
+        <a href="Mainpage"><button type="button">메인페이지</button></a>        
     </form>
    
 </body>
