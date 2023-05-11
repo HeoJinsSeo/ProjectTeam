@@ -41,20 +41,21 @@ public class LoginController {
 					Model model) {
 		System.out.println("memId : "+memId);
 		// 회원 정보를 가져오는 로직
-		MemberDTO member = getMemberFromMemberDTO(memId);
-		MemberDTO member1 = getMemberFromMemberDTO(memPw);
+//		MemberDTO member = getMemberFromMemberDTO(memId);
+//		MemberDTO member1 = getMemberFromMemberDTO(memPw);
 		
 		// 회원 ID와 비밀번호가 일치하는 경우, 로그인 페이지로 이동
 		System.out.println(memPw);
-		System.out.println(member1.getMemPw());
-		System.out.println(member1.getMemPw().equals(memPw));
-		if(member1 != null && member1.getMemPw().equals(memPw)) {
-			return "main";
-		} else {
-			// 회원 ID와 비밀번호가 일치하지 않는 경우, 에러 페이지로 이동
-			model.addAttribute("error","Invalid memId or memPw");
-			return "error";
-		}
+//		System.out.println(member1.getMemPw());
+//		System.out.println(member1.getMemPw().equals(memPw));
+//		if(member1 != null && member1.getMemPw().equals(memPw)) {
+//			return "main";
+//		} else {
+//			// 회원 ID와 비밀번호가 일치하지 않는 경우, 에러 페이지로 이동
+//			model.addAttribute("error","Invalid memId or memPw");
+//			return "error";
+//		}
+		return "error";
 	}
 
 	
@@ -65,7 +66,7 @@ public class LoginController {
 		String member = null;
 	    try {
 	        // Service에서 회원 정보를 조회하는 로직을 수행합니다.
-	        member =Service.getMemId(memId);
+//	        member =Service.getMemId(memId);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

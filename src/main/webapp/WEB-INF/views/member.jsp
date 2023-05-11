@@ -36,7 +36,15 @@
 	</div>	
 	<div>
 		<label for="memAges">연령대 : </label>
-		<input id="memAges" name="memAges" type="memAges">
+		<select id="memAges" name="memAges" type="memAges">
+			<option value="10대">10대</option>
+			<option value="20대">20대</option>
+			<option value="30대">30대</option>
+			<option value="40대">40대</option>
+			<option value="50대">50대</option>
+			<option value="60대">60대</option>
+			<option value="70대">70대</option>
+		</select>
 	</div>	
 	<br>
 	<br>
