@@ -12,7 +12,7 @@
 
 <div id="util_menu">
 	<div class="head_top_left">
-		<a title="이용권구매"><button class="buy_ticket_btn">이용권구매</button></a>
+		<a title="이용권구매"><button class="buy_ticket_btn" onclick="location.href='/ad';">이용권구매</button></a>
 	</div>
 	<div class="head_top_right">
 		<a title="환영코드"><span class="user_states">

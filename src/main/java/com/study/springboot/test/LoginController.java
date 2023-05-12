@@ -80,4 +80,17 @@ public class LoginController {
 		return "ad";
 	}
 	
+	@RequestMapping("/musicchart")
+	public String chart() {
+		System.out.println("/chart");
+		
+		return "Top100";
+	}
+	
+	@RequestMapping("/newalbum")
+	public String chart1() {
+		System.out.println("/chart");
+		
+		return "Newalbum";
+	}
 }

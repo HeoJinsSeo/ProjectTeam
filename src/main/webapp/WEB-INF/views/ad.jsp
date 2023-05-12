@@ -36,7 +36,7 @@
 <footer>
 
 	
-	<button onclick="closePage()">ÆË¾÷Ã¢ ´Ý±â</button>
+	<button onclick="location.href='/Mainpage';">Ã¢ ´Ý±â</button>
 	
 </footer>
 </body>
