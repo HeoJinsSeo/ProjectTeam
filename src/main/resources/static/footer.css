@@ -1,0 +1,73 @@
+* {
+    box-sizing: border-box;
+
+}
+
+body {
+    height: 100vh;
+}
+
+footer {
+    /* border: 1px solid #000; */
+    width: auto;
+    height: 150px;  /* footer를 차지할 높이 */
+    bottom: -500px;
+    left: 0;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    /* display: flex; */     /* 이걸 해제해야 main 텍스트들이 일정하게 배치 */
+    flex-direction: row;
+    transform: translateY(700%);
+    padding: 0;
+    /* column-count: 3; */
+}
+
+.footernav {
+    position: relative;
+    display: inline-flex;
+    font-size: 12px;
+    /* border: 1px solid #0fff; */
+    width: 100%;
+    margin-right: 0.5rem;
+    text-align: center;
+    list-style-type: none;
+    justify-content: center;
+    padding: 20px 0 0 20px;
+}
+
+.footernav li {
+    margin-right: 0.8rem;
+    padding: 10px;
+}
+
+#hr {
+    width: 80%;
+    position: relative;
+    justify-content: center;
+}
+
+.footer_text {
+    text-decoration-line: none;
+    color: lightslategray;
+}
+
+.info p{
+    position: relative;
+    display: inline-flex;
+    font-size: 9px;
+    color: lightslategray;
+    justify-content: center;
+    margin-right: 0.8rem;
+    /* right: 100px; */
+}
+
+.info2 p{
+    position: relative;
+    display: inline-flex;
+    font-size: 9px;
+    color: lightslategray;
+    justify-content: center;
+    margin-right: 0.8rem;
+    /* right: 100px; */
+}

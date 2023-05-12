@@ -5,28 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HYPEMUSIC STUDIO</title>
+<title>MYINFO PAGE</title>
 </head>
 <link rel="stylesheet" href="/Mainpage.css">
-<<<<<<< HEAD
-
-<div id="util_menu">
-	<div class="head_top_left">
-		<a title="이용권구매"><button class="buy_ticket_btn" onclick="location.href='/ad';">이용권구매</button></a>
-	</div>
-	<div class="head_top_right">
-		<a title="환영코드"><span class="user_states">
-		<c:choose>
-		  <c:when test="${empty id}">
-		    방문객
-		  </c:when>
-		  <c:otherwise>
-		    ${id}
-		  </c:otherwise>
-		</c:choose> </span>님 환영합니다!</a>
-		<a href="login" title="로그인"><button class="login_btn">로그인</button></a>
-		<a href="Signup" title="회원가입"><button class="signup_btn">회원가입</button></a>
-=======
 <link rel="stylesheet" href="/footer.css">
 <header>
 <div id="header">
@@ -45,7 +26,6 @@
 			  </c:otherwise>
 			</c:choose> </span>님 환영합니다!</a>
 		</div>	
->>>>>>> a419bbbd61ebf9b5611140af855bc93058d1471f
 	</div>
 	<div class="head_middle">
         <a href="Mainpage" title="Go_Mainppge"><img src="img/logo2.jpg" alt="로고" class="logo"></a>
@@ -79,7 +59,16 @@
 	</div>
 	        <hr class="header_line">        
 </header>
+
 <body>
+	<br><br><br>
+	<h1>내정보</h1>
+    <p>ID: ${id}</p>
+    <p>나이: ${age}</p>
+    <p>취향: ${preference}</p>
+    <p>등급: ${rank}</p>
+
+    <a href="Mainpage" title="mainpage">메인페이지</a>
 
 </body>
 <!--  선아님 Footer -->

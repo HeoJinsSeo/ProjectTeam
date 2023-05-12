@@ -22,12 +22,10 @@
 =======
 <div class="logo">
 <a href="#">
-	<img src="/logo2.jpg" alt="이미지">
+	<img src="img/logo2.jpg" alt="이미지">
 </a>
 </div>
 <br>
-
->>>>>>> 23da742ee4d3e6263ecae42ebd1cbd6e46bc56f4
 
 <form id="loginForm" action="login" method="post">
 	
