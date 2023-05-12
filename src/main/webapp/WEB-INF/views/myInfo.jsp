@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HYPEMUSIC STUDIO</title>
+<title>MYINFO PAGE</title>
 </head>
+
 <header>
 <link rel="stylesheet" href="/Mainpage.css">
 
@@ -59,6 +60,14 @@
 </header>
 
 <body>
+	<br><br><br>
+	<h1>내정보</h1>
+    <p>ID: ${id}</p>
+    <p>나이: ${age}</p>
+    <p>취향: ${preference}</p>
+    <p>등급: ${rank}</p>
+
+    <a href="Mainpage" title="mainpage">메인페이지</a>
 
 </body>
 </html>

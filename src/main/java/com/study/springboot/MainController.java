@@ -50,6 +50,12 @@ public class MainController
  
     @Autowired
     UserService userService;
+    
+    // 로고 클릭시 메인페이지 다시가는 컨트롤러
+    @GetMapping("/go_Mainpage")
+    public String go_mainpage() {
+        return "redirect:/Mainpage"; // 메인페이지로 리다이렉트
+    }
 
     // 회원가입 페이지 진입용 컨트롤러
     @GetMapping("/Signup")
@@ -104,6 +110,29 @@ public class MainController
             }
         }
         return "redirect:/login?error=true";		// 실패시 다시 로그인 페이지
+    }
+    
+    // 로그아웃 컨트롤러
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        session.invalidate(); // 세션초기화
+        System.out.println("로그아웃 성공");
+        return "redirect:/Mainpage"; // 메인페이지로 리다이렉트
+    }
+    
+    // 로그아웃 컨트롤러
+    @GetMapping("/myInfo")
+    public String myinfo(HttpServletRequest req) {
+    	
+        HttpSession session = req.getSession();
+        
+    	String id = (String) session.getAttribute("id");
+    	Integer age = (Integer) session.getAttribute("age");
+    	String preference = (String) session.getAttribute("preference");
+    	Integer rank = (Integer) session.getAttribute("rank");
+    	
+        return "myInfo"; // 메인페이지로 리다이렉트
     }
     
     // 메인 페이지 컨트롤러

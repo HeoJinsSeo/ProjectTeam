@@ -2,6 +2,8 @@
 
     .buy_ticket_btn,
     .login_btn,
+    .logout_btn,
+    .myInfo_btn,
     .signup_btn,
     .music_chart_btn,
     .new_music_btn,
@@ -26,6 +28,8 @@
     
     .buy_ticket_btn:hover,
     .login_btn:hover,
+    .logout_btn:hover,
+    .myInfo_btn:hover,
     .signup_btn:hover,
     .music_chart_btn:hover,
     .new_music_btn:hover,
@@ -77,7 +81,7 @@
 	}
 	.search_box {
 	    margin-left: 16px;
-	    width: 450px;
+	    width: 400px;
 	    height: 36px;
 	    padding: 4px;
 	    border-radius: 4px;
