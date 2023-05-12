@@ -155,5 +155,46 @@ public class MainController
         
         return "Mainpage";
     }
+    
+    // TOP100 페이지 컨트롤러
+    @GetMapping("/top100")
+    public String top_100() {
+        return "/top100"; // TOP100
+    }
+    
+    // 최신음악 페이지 컨트롤러
+    @GetMapping("/newmusic")
+    public String new_music() {
+        return "/newmusic"; // 최신음악 페이지
+    }
+    
+    // 장르음악 페이지 컨트롤러
+    @GetMapping("/genremusic")
+    public String genre_music() {
+        return "/genremusic"; // 장르음악 페이지
+    }
+    
+    // 스타메거진 페이지 컨트롤러
+    @GetMapping("/starmagazine")
+    public String star_magazine() {
+        return "/starmagazine"; // 스타메거진 페이지
+    }
+    
+    // 인기뮤직비디오 페이지 컨트롤러
+    @GetMapping("/hotmv")
+    public String hot_mv() {
+        return "/hotmv"; // 인기뮤직비디오 페이지
+    }
+    
+    // 뮤직4U 페이지 컨트롤러
+    @GetMapping("/music4u")
+    public String music_4u() {
+        return "/music4u"; // 뮤직4U 페이지
+    }
+    
+    // 마이뮤직 페이지 컨트롤러
+    @GetMapping("/mymusic")
+    public String my_music() {
+        return "/mymusic"; // 마이뮤직 페이지
+    }    
 }
-

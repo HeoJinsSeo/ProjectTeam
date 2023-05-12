@@ -7,9 +7,8 @@
 <meta charset="UTF-8">
 <title>MYINFO PAGE</title>
 </head>
-
-<header>
 <link rel="stylesheet" href="/Mainpage.css">
+<header>
 
 <div id="util_menu">
 	<div class="head_top_left">
