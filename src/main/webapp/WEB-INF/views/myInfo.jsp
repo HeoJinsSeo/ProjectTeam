@@ -9,6 +9,7 @@
 </head>
 <link rel="stylesheet" href="/Mainpage.css">
 <link rel="stylesheet" href="/footer.css">
+
 <header>
 <div id="header">
 	<div class = head_top>
@@ -60,16 +61,27 @@
 	        <hr class="header_line">        
 </header>
 
-<body>
-	<br><br><br>
-	<h1>내정보</h1>
-    <p>ID: ${id}</p>
-    <p>나이: ${age}</p>
-    <p>취향: ${preference}</p>
-    <p>등급: ${rank}</p>
-
-    <a href="Mainpage" title="mainpage">메인페이지</a>
-
+<body>	
+	   <h1>내정보</h1>
+    <div class="info-container">
+        <div class="info-item">
+            <div>ID:</div>
+            <span>${id}</span>
+        </div>
+        <div class="info-item">
+            <div>나이:</div>
+            <span>${age}</span>
+        </div>
+        <div class="info-item">
+            <div>취향:</div>
+            <span>${preference}</span>
+        </div>
+        <div class="info-item">
+            <div>등급:</div>
+            <span>${rank}</span>
+        </div>
+    </div>
+    <a class="mainpage-link" href="Mainpage" title="메인페이지">메인페이지로 이동</a>
 </body>
 <!--  선아님 Footer -->
 <footer>

@@ -47,10 +47,11 @@
     }
 </style>
 <body>
+
 <c:forEach var="trackInfo" items="${trackInfos}">
   <c:if test="${trackInfo.title == '사랑하기 싫어'}">
     <span>
-    	<img width="78" height="78" src="${trackInfo.album_image}">
+    	<img width="156" height="156" src="${trackInfo.album_image}">
     </span>
     <p>Title : ${trackInfo.title}</p>
     <p>Artist : ${trackInfo.artist}</p>
@@ -63,9 +64,6 @@
     <p>Lyrics : ${trackInfo.lyrics }</p>
   </c:if>
 </c:forEach>
-
-
-
 
 </body>
 </html>
