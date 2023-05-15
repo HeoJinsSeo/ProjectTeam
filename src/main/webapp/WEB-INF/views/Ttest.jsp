@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
+<%@ page import="com.study.springboot.MainController" %>
+<%@ page import="com.study.springboot.TrackInfo" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>TrackInfos</title>
 </head>
 <style>
 	.chart-item {
@@ -43,8 +47,24 @@
     }
 </style>
 <body>
-"${trackInfos }"
-		
+<c:forEach var="trackInfo" items="${trackInfos}">
+  <c:if test="${trackInfo.title == '사랑하기 싫어'}">
+    <span>
+    	<img width="78" height="78" src="${trackInfo.album_image}">
+    </span>
+    <p>Title : ${trackInfo.title}</p>
+    <p>Artist : ${trackInfo.artist}</p>
+    <p>Album : ${trackInfo.album}</p>
+    <p>Release_date : ${trackInfo.release_date}</p>
+    <p>Likes : ${trackInfo.like_count}</p>
+    <p>Genre : ${trackInfo.genre}</p>
+    <p>Style : ${trackInfo.style}</p>
+    <a href="${trackInfo.news1 }" target="_blank">기사1</a>
+    <p>Lyrics : ${trackInfo.lyrics }</p>
+  </c:if>
+</c:forEach>
+
+
 
 
 </body>
