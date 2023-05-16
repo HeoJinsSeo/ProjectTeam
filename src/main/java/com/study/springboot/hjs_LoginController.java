@@ -1,4 +1,4 @@
-package com.study.springboot.test;
+package com.study.springboot;
 
 
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class LoginController {
+public class hjs_LoginController {
 	
 	@RequestMapping("/music")
 	public String music() {
