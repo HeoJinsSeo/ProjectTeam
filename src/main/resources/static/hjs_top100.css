@@ -1,0 +1,223 @@
+@charset "EUC-KR";
+
+body {
+	
+	width:85%;
+	display: inline-block;
+	margin-left: 120px;
+}
+
+h1 {
+	color:gray;
+	margin-left:40px;
+	margin-bottom:0;
+	padding-bottom:0;
+}
+h2 {
+	text-align:center;
+	color:gray;
+	margin:0;
+	padding:0;
+}
+.section_3 {
+	margin-top:0;
+	margin-bottom:0;
+}
+
+.music_btn {
+	display:flex;
+	gap:10px;
+    background-color: white;
+    color: gray;
+    padding: 15px 15px;
+    font-size: 20px;
+    margin-top:0;
+    margin-bottom:0;
+  
+    
+}
+.suffle_listen,
+.all_listen,
+.listen,
+.put,
+.down,
+.FLAC,
+.present
+{
+	width: 75px;
+	height:35px;
+	border: 1px solid gray;
+	border-radius: 20px;
+	color: gray;
+	background-color: white;
+	font-size: 13px;
+	
+}
+
+.suffle_listen:hover,
+.all_listen:hover,
+.listen:hover,
+.put:hover,
+.down:hover,
+.FLAC:hover,
+.present:hover
+ {
+    background-color:#04aa6d;
+    color: white;
+    cursor: pointer;
+}	
+tabel{
+	border-collapse:collapse;
+	
+}
+
+table,th, td{
+	border: none;
+	border-bottom: 1px solid lightgray;
+	border-top: 1px solid lightgray;
+}
+th, td{
+	padding-left: 20px;
+	padding-right: 20px;
+	color: gray;
+	
+	
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+
+.checkmark::after {
+    content: '';   
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 3px 3px 0;  /* top right bottom left */
+    transform: rotate(45deg);
+    color: #04aa6d;
+}
+
+
+td a img{
+	width: 100px;
+	height: 100px;
+	margin:12px 12px 12px 12px;
+}
+#myImage
+{
+    transition: filter 0.5s ease;
+}
+
+
+#myImage.hovered
+{
+  filter: brightness(20%) grayscale(100%);
+}
+
+#myImage2
+{
+    transition: filter 0.5s ease;
+}
+#myImage2.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage3
+{
+    transition: filter 0.5s ease;
+}
+#myImage3.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage4
+{
+    transition: filter 0.5s ease;
+}
+#myImage4.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage5
+{
+    transition: filter 0.5s ease;
+}
+#myImage5.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage6
+{
+    transition: filter 0.5s ease;
+}
+#myImage6.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage7
+{
+    transition: filter 0.5s ease;
+}
+#myImage7.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage8
+{
+    transition: filter 0.5s ease;
+}
+#myImage8.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage9
+{
+    transition: filter 0.5s ease;
+}
+#myImage9.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage10
+{
+    transition: filter 0.5s ease;
+}
+#myImage10.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+#myImage11
+{
+    transition: filter 0.5s ease;
+}
+#myImage11.hovered
+{
+  filter: brightness(20%) grayscale(200%);
+}
+
+.logo1,
+.logo2,
+.logo3,
+.logo4
+ {
+	width:50px;
+	height:50px;
+}

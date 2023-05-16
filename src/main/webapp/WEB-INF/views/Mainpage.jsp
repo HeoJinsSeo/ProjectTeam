@@ -8,7 +8,6 @@
 <title>HYPEMUSIC STUDIO</title>
 </head>
 <link rel="stylesheet" href="/Mainpage.css">
-<<<<<<< HEAD
 
 <div id="util_menu">
 	<div class="head_top_left">
@@ -26,7 +25,6 @@
 		</c:choose> </span>님 환영합니다!</a>
 		<a href="login" title="로그인"><button class="login_btn">로그인</button></a>
 		<a href="Signup" title="회원가입"><button class="signup_btn">회원가입</button></a>
-=======
 <link rel="stylesheet" href="/footer.css">
 <header>
 <div id="header">
@@ -45,7 +43,7 @@
 			  </c:otherwise>
 			</c:choose> </span>님 환영합니다!</a>
 		</div>	
->>>>>>> a419bbbd61ebf9b5611140af855bc93058d1471f
+
 	</div>
 	<div class="head_middle">
         <a href="Mainpage" title="Go_Mainppge"><img src="img/logo2.jpg" alt="로고" class="logo"></a>
