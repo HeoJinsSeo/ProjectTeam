@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
+<%@ page import="com.study.springboot.MainController" %>
+<%@ page import="com.study.springboot.TrackInfo" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>HYPEMUSIC STUDIO</title>
 </head>
 <link rel="stylesheet" href="/Mainpage.css">
+
 
 <div id="util_menu">
 	<div class="head_top_left">
@@ -25,7 +29,58 @@
 		</c:choose> </span>님 환영합니다!</a>
 		<a href="login" title="로그인"><button class="login_btn">로그인</button></a>
 		<a href="Signup" title="회원가입"><button class="signup_btn">회원가입</button></a>
+
+
 <link rel="stylesheet" href="/footer.css">
+<style>
+    #recent_track{	    
+    	margin-left:105px;
+     }
+       .track {
+           display: inline-block;
+           width: 200px;
+           height: 200px;
+           margin: 2px;
+           position: relative;
+           overflow: hidden;
+       }
+    .track-wrapper {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 2px;
+        justify-items: center; /* 가로 중앙 정렬을 위해 추가 */
+     }       
+
+       .track img {
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+       }
+
+       .track .caption {
+           position: absolute;
+           bottom: 0;
+           left: 0;
+           width: 100%;
+           background-color: rgba(0, 0, 0, 0.7);
+           color: #fff;
+           padding: 10px;
+           opacity: 0;
+           transition: opacity 0.3s ease;
+       }
+       
+       .track:hover .caption {
+           opacity: 1;
+       }
+               .pagination {
+           margin-top: 20px;
+       }
+
+       .pagination button {
+           margin-right: 5px;
+       }
+
+</style>
 <header>
 <div id="header">
 	<div class = head_top>
@@ -78,6 +133,30 @@
 	        <hr class="header_line">        
 </header>
 <body>
+<section id="recent_track">
+    <h1>최신 음악</h1>
+
+    <!-- 장르 버튼 -->
+    <div class="genres">
+    	<button onclick="showGenre('recent')">최신</button>
+        <button onclick="showGenre('dance')">댄스</button>
+        <button onclick="showGenre('hiphop')">힙합</button>
+        <button onclick="showGenre('ballad')">발라드</button>
+    </div>
+
+    <!-- 트랙 1-10 -->
+    <div class="track-wrapper">
+        <c:forEach var="trackInfo_2023" items="${trackInfos_2023}" begin="0" end="9">
+        <div class="track">
+            <img src="${trackInfo_2023.album_image}">
+            <div class="caption">
+                <p>${trackInfo_2023.title}</p>
+                <p>${trackInfo_2023.artist}</p>
+            </div>
+        </div>
+        </c:forEach>
+    </div>
+</section>
 
 </body>
 <!--  선아님 Footer -->
@@ -116,5 +195,6 @@
         <p>dkfsjkldf : dskgjlskglk</p>
         <p>dkfsjkldf : dskgjlskglk</p>
     </div>
+    
 </footer>
 </html>

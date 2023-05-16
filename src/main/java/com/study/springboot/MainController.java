@@ -1,53 +1,51 @@
 package com.study.springboot;
 
+import com.study.springboot.Functions;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
+/**
+ * 
+ * @author 박정수
+ * 메인 컨트롤러 단입니다.
+ * 메소드들은 전부 Functions에 옮겨 두었습니다.
+ * 필요하신 함수는 Functions 클래스에서 정의 하시고,
+ * functions.method() 이런식으로 호출해 주시면 감사하겠습니다.
+ */
 @Controller
-// 저는컨트롤러는 이거 하나만 쓰겠습니다.
-// 컨트롤러를 따로 여러개 만들 필요는 없더라구요.
 public class MainController
 {
-	// CSV에서 배열로 user 정보 읽어오기
-	// 이제 userList 라는 변수가 csv 파일을 읽어 옵니다.
-    private List<User> getUserListFromCSV() throws IOException {
-        List<User> userList = new ArrayList<>();
-        // 경로 설정
-        ClassPathResource resource = new ClassPathResource("metadata/user.csv");
-        // 메모리 효율성을 위한 BufferReader를 골랐습니다
-        BufferedReader reader = new BufferedReader(new FileReader(resource.getFile()));
-        String line = reader.readLine(); // 첫 번째 라인은 헤더
-        while ((line = reader.readLine()) != null) {		// 더이상 읽을수 없는 라인이 생길때까까지
-        	// 필드라는 리스트로 하나씩 저장, ","를 기준으로 데이터를 읽어옵니다
-            String[] fields = line.split(",");
-            String id = fields[0];					// 첫번째 id
-            String password = fields[1];			// 두번째 password
-            int age = Integer.parseInt(fields[2]);	// 세번째 나이
-            String preference = fields[3];			// 네번째 취향
-            int rank = Integer.parseInt(fields[4]);	// 다섯번쨰 등급
-            User user = new User(id, password, age, preference, rank);		// user 객체에 담기
-            // 추가
-            userList.add(user);
-        }
-        reader.close();	
-        return userList;
-    }
+	// 함수 호출
+	Functions functions = new Functions();
     
- 
     @Autowired
     UserService userService;
     
@@ -56,7 +54,15 @@ public class MainController
     public String go_mainpage() {
         return "redirect:/Mainpage"; // 메인페이지로 리다이렉트
     }
-
+    
+    // 트랙정보 출력 테스트 페이지
+    @RequestMapping("/Ttest")
+    public String getTtest(Model model) throws IOException, ParseException {
+    	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+    	model.addAttribute("trackInfos", trackInfos);
+        return "Ttest";
+    }
+    
     // 회원가입 페이지 진입용 컨트롤러
     @GetMapping("/Signup")
     public String Signup() {
@@ -95,7 +101,7 @@ public class MainController
     	HttpSession session = req.getSession();
     	
         System.out.println("로그인 처리");		// 동작 확인용
-        List<User> userList = getUserListFromCSV();		// csv 에서 유저정보 읽어옴
+        List<User> userList = functions.getUserListFromCSV();		// csv 에서 유저정보 읽어옴
                 for (User user : userList) {
             if (user.getId().equals(id) && user.getPassword().equals(password)) {	// 만약 id, password가 일치한다면
             	
@@ -121,27 +127,18 @@ public class MainController
         return "redirect:/Mainpage"; // 메인페이지로 리다이렉트
     }
     
-    // 로그아웃 컨트롤러
-    @GetMapping("/myInfo")
-    public String myinfo(HttpServletRequest req) {
-    	
-        HttpSession session = req.getSession();
-        
-    	String id = (String) session.getAttribute("id");
-    	Integer age = (Integer) session.getAttribute("age");
-    	String preference = (String) session.getAttribute("preference");
-    	Integer rank = (Integer) session.getAttribute("rank");
-    	
-        return "myInfo"; // 메인페이지로 리다이렉트
-    }
-    
     // 메인 페이지 컨트롤러
     @GetMapping("/Mainpage")
-    public String Mainpage(HttpServletRequest req) {
+    public String Mainpage(HttpServletRequest req, Model model) throws IOException, ParseException {
+    	
+    	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+    	List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);    	
     	
     	HttpSession session = req.getSession();
+    	model.addAttribute("trackInfos", trackInfos);
+    	model.addAttribute("trackInfos_2023",trackInfos_2023);
     	
-    	// 세션에서 모든 정보를 읽어옵니다
+    	// 세션에서 계정 정보를 읽어옵니다
     	String id = (String) session.getAttribute("id");
     	Integer age = (Integer) session.getAttribute("age");
     	String preference = (String) session.getAttribute("preference");
@@ -152,49 +149,30 @@ public class MainController
         System.out.println("age : " + age);
         System.out.println("preference : " + preference);
         System.out.println("rank : " + rank);
-        
+                    
         return "Mainpage";
     }
     
-    // TOP100 페이지 컨트롤러
-    @GetMapping("/top100")
-    public String top_100() {
-        return "/top100"; // TOP100
+    // 회원가입 페이지 진입용 컨트롤러
+    @GetMapping("/myInfo")
+    public String myinfo(HttpServletRequest req) {
+    	
+    	HttpSession session = req.getSession();
+    	
+    	String id = (String) session.getAttribute("id");
+    	Integer age = (Integer) session.getAttribute("age");
+    	String preference = (String) session.getAttribute("preference");
+    	Integer rank = (Integer) session.getAttribute("rank");
+    	
+        System.out.println("내정ㅂ 페이지 진입");
+        System.out.println("id : " + id);
+        System.out.println("age : " + age);
+        System.out.println("preference : " + preference);
+        System.out.println("rank : " + rank);
+    	
+        return "myInfo";
     }
-    
-    // 최신음악 페이지 컨트롤러
-    @GetMapping("/newmusic")
-    public String new_music() {
-        return "/newmusic"; // 최신음악 페이지
-    }
-    
-    // 장르음악 페이지 컨트롤러
-    @GetMapping("/genremusic")
-    public String genre_music() {
-        return "/genremusic"; // 장르음악 페이지
-    }
-    
-    // 스타메거진 페이지 컨트롤러
-    @GetMapping("/starmagazine")
-    public String star_magazine() {
-        return "/starmagazine"; // 스타메거진 페이지
-    }
-    
-    // 인기뮤직비디오 페이지 컨트롤러
-    @GetMapping("/hotmv")
-    public String hot_mv() {
-        return "/hotmv"; // 인기뮤직비디오 페이지
-    }
-    
-    // 뮤직4U 페이지 컨트롤러
-    @GetMapping("/music4u")
-    public String music_4u() {
-        return "/music4u"; // 뮤직4U 페이지
-    }
-    
-    // 마이뮤직 페이지 컨트롤러
-    @GetMapping("/mymusic")
-    public String my_music() {
-        return "/mymusic"; // 마이뮤직 페이지
-    }    
+
+
 }
+
