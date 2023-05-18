@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -31,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
 /**
  * 
  * @author 박정수
@@ -172,7 +173,41 @@ public class MainController
     	
         return "myInfo";
     }
+    @RequestMapping("/musicInfo")
+    public String musicInfo(HttpServletRequest request, Model model) throws IOException, ParseException {
+        // 클릭 이벤트에서 전달된 track_id 값을 가져옴
+        String strtrack_id = request.getParameter("track_id");
+        int track_id = -1;
+        if(strtrack_id!=null) {
+        	track_id= Integer.parseInt(strtrack_id);
+        }
 
+        // XLSX 파일을 읽어오는 함수 호출
+        List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
 
-}
+        // track_id 값을 기반으로 XLSX 파일에서 해당하는 행을 찾는 함수 호출
+        TrackInfo musicInfo = findTrackByTrack_id(trackInfos, track_id);
 
+        if (musicInfo == null) {
+            return "redirect:/chart";  // chart로 리다이렉트
+        }
+
+        // 필요한 데이터를 추출하여 모델에 추가
+        model.addAttribute("title", musicInfo.getTitle());
+        model.addAttribute("artist", musicInfo.getArtist());
+        model.addAttribute("style", musicInfo.getStyle());
+        model.addAttribute("album_image", musicInfo.getAlbum_image());
+        model.addAttribute("lyrics", musicInfo.getLyrics());
+
+        // musicInfo 페이지로 이동
+        return "musicInfo";
+    }
+
+    public TrackInfo findTrackByTrack_id(List<TrackInfo> trackInfos, int track_id) {
+        for (TrackInfo trackInfo : trackInfos) {
+            if (trackInfo.getTrack_id() == track_id) {
+                return trackInfo;  // track_id와 일치하는 트랙을 찾았을 때 해당 트랙 정보 반환
+            }
+        }
+        return null;  // 일치하는 트랙을 찾지 못한 경우 null 반환
+    }}

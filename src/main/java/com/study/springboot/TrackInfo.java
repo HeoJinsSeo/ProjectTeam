@@ -19,6 +19,7 @@ public class TrackInfo {
 	private String news2;
 	private String news3;
 	
+	
 	public TrackInfo(String title, String artist, String album, int track_id, int album_id, 
 					 String album_image, String lyrics, int like_count,
 					 String genre, String style, String release_date, String news1, String news2, 

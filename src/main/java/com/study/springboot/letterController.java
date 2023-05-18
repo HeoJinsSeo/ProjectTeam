@@ -14,7 +14,8 @@ public class letterController {
 			@RequestParam(value = "inputField", required = false) String inputField) {
 		System.out.println(buttonId);
 		if (buttonId.equals("searchButton")) {
-			return "redirect:/filter";
+			String track_id = "6191191";
+			return "redirect:/musicInfo?track_id="+track_id;
 		} else if (buttonId.equals("writeButton")) {
 			return "redirect:/letter_new";
 		} else if (buttonId.equals("return")) {
@@ -38,14 +39,14 @@ public class letterController {
 
 	@RequestMapping({"/letter_table"})
 	public String letter(Model model, @RequestParam(value = "inputValue", required = false) String inputValue) {
-		int length = 10;
+		int length = 20;
 		if (inputValue != null) {
 			++length;
 		}
 
 		List<Letter> letterList = new ArrayList();
 
-		for (int i = 1; i <= length; i++) {
+		for (int i = 0; i <= length; i++) {
 			String date = "Date " + i;
 			String title = "Title " + i;
 			String writer = "Writer " + i;

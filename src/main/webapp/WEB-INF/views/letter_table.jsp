@@ -8,23 +8,36 @@
 <meta charset="UTF-8">
 <title>letter_table</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="footer.css">
+    <link rel="stylesheet" type="text/css" href="Mainpage.css">
+    <link rel="stylesheet" type="text/css" href="letter.css">
 </head>
 <style>
-html{text-align: center;}
-table{position: relative; width: 100%; background-color: #e6e6e6;
-        border-collapse: collapse;}
-tr, td, th { border: 1px solid black;}
-.title{width: 60%}
+.checkbox-button {
+  margin-right: 5px;
+}
+
+.checkbox-button:checked {
+  background-color: #ccc;
+}
+
+button:hover{background-color: skyblue;}
+button:active{background-color: #blue;}
 </style>
+
+<%--다른 파일으로부터의 접근--%> 
+<header>
+    <%@ include file="header.jsp" %> <!---->
+</header> 
 <body>
-  <div class="qna">
+<!--보류   <div class="qna">
     <header>
       <button class="tab active" onclick="openTab(event, 'qna')">Q&A</button>
       <button class="tab" onclick="openTab(event, 'community')">커뮤니티</button>
     </header>
-    
+     -->
     <div id="qna" class="tab-content active">
-      <table>
+      <table id="letterTable">
         <thead>
           <tr>
             <th class="order">순서</th>
@@ -37,7 +50,7 @@ tr, td, th { border: 1px solid black;}
         <tbody>
           <%-- java 로 테이블 생성 --%>
 		    <c:forEach begin="1" end="${length}" var="i" varStatus="status">
-			        <tr>
+			        <tr id="targetElement">
 						<td class="order">${i}</td>
 						<td class="date">${letter[status.index].getDate()}</td>
 						<td class="title" onclick="redirectTolette_show('${letter[status.index].getTitle()}', '${letter[status.index].getWriter()}')">${letter[status.index].getTitle()}</td>
@@ -47,6 +60,10 @@ tr, td, th { border: 1px solid black;}
 		    </c:forEach>
         </tbody>
       </table>
+      <button onclick="previousPage()">이전 페이지</button>
+      <div id="pageButtons"></div>
+      
+      <button onclick="nextPage()">다음 페이지</button>
       <form action="table_button" method="post" >
         <select id="filterSelect">
           <option value="">전체</option>
@@ -59,15 +76,21 @@ tr, td, th { border: 1px solid black;}
         <button type="submit" name="buttonId" value="writeButton">글쓰기</button>
       </form>
     </div>
-    <div id="community" class="tab-content">
+<!-- 보류    <div id="community" class="tab-content">
       <table>
         <tr>
           <th>커뮤니티</th>
         </tr>
       </table>
-    </div>
-  </div>
+    </div> 
+  </div>-->
+  <button onclick="toggleCheckbox()">
+
+</button>
 </body>
+
+<footer>
+</footer>
 <script type="text/javascript">
 function openTab(event, tabName) {
     // 모든 탭 내용을 숨김
@@ -91,7 +114,74 @@ function redirectTolette_show(title, writer) {
     var encodedWriter = encodeURIComponent(writer);
     window.location.href = '/letter_show?title=' + encodedTitle + '&writer=' + encodedWriter;
   }
+/*================================================<  >*/
 
-    
+var currentPage = Math.ceil(${length} / 10); // 페이지 수 계산
+var pageButtons = document.getElementById('pageButtons');
+var initialPage = 1; // 처음 로딩될 때의 페이지 번호 (첫 번째 페이지)
+
+for (var i = 1; i <= currentPage; i++) {
+  var button = document.createElement('button');
+  button.type = 'button';
+  button.id = 'button' + i;
+  button.textContent = i; // 번호 표시
+  button.classList.add('checkbox-button');
+
+  if (i === initialPage) {
+    button.classList.add('active'); // 처음 로딩될 때 선택된 페이지 버튼에 클래스 추가
+  }
+
+  button.addEventListener('click', function(event) {
+    var buttons = pageButtons.getElementsByTagName('button');
+    for (var j = 0; j < buttons.length; j++) {
+      buttons[j].classList.remove('active'); // 다른 버튼 클래스 제거
+    }
+    event.target.classList.add('active'); // 선택된 버튼에 클래스 추가
+
+    // 선택된 버튼의 동작 수행
+    var pageNumber = parseInt(event.target.textContent);
+    var startIdx = (pageNumber - 1) * 10; // 시작 인덱스 계산
+    var endIdx = startIdx + 9; // 종료 인덱스 계산
+
+    // 모든 데이터 행을 가져와서 순회하면서 표시 여부 결정
+    var targetElements = document.querySelectorAll('#targetElement');
+    for (var i = 0; i < targetElements.length; i++) {
+      var element = targetElements[i];
+      if (i >= startIdx && i <= endIdx) {
+        element.style.display = ''; // 해당 범위에 속하는 데이터는 표시
+      } else {
+        element.style.display = 'none'; // 해당 범위에 속하지 않는 데이터는 숨김
+      }
+    }
+  });
+
+  pageButtons.appendChild(button);
+}
+//처음 로딩 시 1페이지에서 10번째까지의 데이터 표시
+var targetElements = document.querySelectorAll('#targetElement');
+for (var i = 0; i < targetElements.length; i++) {
+  var element = targetElements[i];
+  if (i >= startIdx && i <= endIdx) {
+    element.style.display = ''; // 해당 범위에 속하는 데이터는 표시
+  } else {
+    element.style.display = 'none'; // 해당 범위에 속하지 않는 데이터는 숨김
+  }
+
+  if (i === endIdx) {
+    break; // 10번째 엘리먼트까지만 처리하고 반복문 종료
+  }
+}
+function previousPage() {
+	if (currentPage > 1){
+		currentPage--;
+  showPage(currentPage);
+  }
+}
+function nextPage() {
+    if (currentPage < totalPages) {
+      currentPage++;
+      showPage(currentPage);
+    }
+  }
 </script>
 </html>

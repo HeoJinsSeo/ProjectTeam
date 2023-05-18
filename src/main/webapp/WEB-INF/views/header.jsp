@@ -1,67 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Collections" %>
-<%@ page import="com.study.springboot.MainController" %>
-<%@ page import="com.study.springboot.TrackInfo" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>HYPEMUSIC STUDIO</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
-<link rel="stylesheet" href="/Mainpage.css">
 
-<link rel="stylesheet" href="/footer.css">
-<style>
-    #recent_track{	    
-    	margin-left:105px;
-     }
-       .track {
-           display: inline-block;
-           width: 200px;
-           height: 200px;
-           margin: 2px;
-           position: relative;
-           overflow: hidden;
-       }
-    .track-wrapper {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 2px;
-        justify-items: center; /* 가로 중앙 정렬을 위해 추가 */
-     }       
 
-       .track img {
-           width: 100%;
-           height: 100%;
-           object-fit: cover;
-       }
-
-       .track .caption {
-           position: absolute;
-           bottom: 0;
-           left: 0;
-           width: 100%;
-           background-color: rgba(0, 0, 0, 0.7);
-           color: #fff;
-           padding: 10px;
-           opacity: 0;
-           transition: opacity 0.3s ease;
-       }
-       
-       .track:hover .caption {
-           opacity: 1;
-       }
-               .pagination {
-           margin-top: 20px;
-       }
-
-       .pagination button {
-           margin-right: 5px;
-       }
-
-</style>
 <header>
 <div id="header">
 	<div class = head_top>
@@ -94,7 +40,7 @@
 	      <a href="starmagazine" title="starmagazine"><button class="star_magazine_btn">스타매거진</button></a>
 	      <a href="hotmv" title="hotmv"><button class="popular_music_video_btn">인기 뮤직비디오</button></a>
 	      <a href="music4u" title="music4u"><button class="music_4u_btn">뮤직4U</button></a>
-	      <button class="board_btn" onclick="loadLetterTable()">게시판</button>
+	      <button class="board_btn">게시판</button>
 	      <a href="mymusic" title="mymusic"><button class="my_music_btn">마이뮤직</button></a>	      
 	    </div> 
 	    <div class="head_bottom_right">
@@ -111,36 +57,17 @@
 	    </div>
 	   </div>	
 	</div>
-	        <hr class="header_line">        
+	        <hr class="header_line">    
+	            <nav>
+        <ul style="display: none;">
+            <li><a href="/letter_table">Letter Table</a></li> <!-- Link to letter_table -->
+            <li><a href="/other_page">Other Page</a></li>
+        </ul>
+    </nav>    
 </header>
 <body>
-<section id="recent_track">
-    <h1>최신 음악</h1>
-
-    <!-- 장르 버튼 -->
-    <div class="genres">
-    	<button onclick="showGenre('recent')">최신</button>
-        <button onclick="showGenre('dance')">댄스</button>
-        <button onclick="showGenre('hiphop')">힙합</button>
-        <button onclick="showGenre('ballad')">발라드</button>
-    </div>
-
-    <!-- 트랙 1-10 -->
-    <div class="track-wrapper">
-        <c:forEach var="trackInfo_2023" items="${trackInfos_2023}" begin="0" end="9">
-        <div class="track">
-            <img src="${trackInfo_2023.album_image}">
-            <div class="caption">
-                <p>${trackInfo_2023.title}</p>
-                <p>${trackInfo_2023.artist}</p>
-            </div>
-        </div>
-        </c:forEach>
-    </div>
-</section>
 
 </body>
-<!--  선아님 Footer -->
 <footer>
     <hr>
     <div>
