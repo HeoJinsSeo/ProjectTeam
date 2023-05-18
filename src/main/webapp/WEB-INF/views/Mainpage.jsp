@@ -11,76 +11,125 @@
 <title>HYPEMUSIC STUDIO</title>
 </head>
 <link rel="stylesheet" href="/Mainpage.css">
-
-
-<div id="util_menu">
-	<div class="head_top_left">
-		<a title="이용권구매"><button class="buy_ticket_btn" onclick="location.href='/ad';">이용권구매</button></a>
-	</div>
-	<div class="head_top_right">
-		<a title="환영코드"><span class="user_states">
-		<c:choose>
-		  <c:when test="${empty id}">
-		    방문객
-		  </c:when>
-		  <c:otherwise>
-		    ${id}
-		  </c:otherwise>
-		</c:choose> </span>님 환영합니다!</a>
-		<a href="login" title="로그인"><button class="login_btn">로그인</button></a>
-		<a href="Signup" title="회원가입"><button class="signup_btn">회원가입</button></a>
-
-
 <link rel="stylesheet" href="/footer.css">
+
 <style>
-    #recent_track{	    
-    	margin-left:105px;
-     }
-       .track {
-           display: inline-block;
-           width: 200px;
-           height: 200px;
-           margin: 2px;
-           position: relative;
-           overflow: hidden;
-       }
-    .track-wrapper {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 2px;
-        justify-items: center; /* 가로 중앙 정렬을 위해 추가 */
-     }       
+	#header {
+	  display: flex;
+	  flex-direction: column;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+	  width: 1000px;
+	}
+	
+	.head_top {
+      display: flex;
+      height: 45px;
+    }
+    
+    .head_top_left {
+    	display: flex;
+		justify-self: flex-start;
+		margin-top: auto;
+    }
 
-       .track img {
-           width: 100%;
-           height: 100%;
-           object-fit: cover;
-       }
+    .head_top_right {
+    	display: flex;
+		justify-self: flex-end;
+		margin-left: auto;
+		line-height: 45px;
+    }
+    
+    .head_middle {
+    	display:flex;
+    	justify-content: center;
+    	align-items: center;
+    	position: relative;
+	    width: 80%;
+	    margin: 0 auto;
+	}	
+	
+    .head_bottom {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: nowrap; 
+  	  overflow-x: auto; 
+    }    
+    
+    .head_bottom_left {
+    	display: flex;
+    	justify-self: flex-start;
+        justify-content: space-between;
+        /*float: left;*/
+    }
 
-       .track .caption {
-           position: absolute;
-           bottom: 0;
-           left: 0;
-           width: 100%;
-           background-color: rgba(0, 0, 0, 0.7);
-           color: #fff;
-           padding: 10px;
-           opacity: 0;
-           transition: opacity 0.3s ease;
-       }
-       
-       .track:hover .caption {
-           opacity: 1;
-       }
-               .pagination {
-           margin-top: 20px;
-       }
+    .head_bottom_right {
+        display: flex;
+        justify-self: flex-end;
+        justify-content: space-between;
+        /*float: right;*/
+    }  
 
-       .pagination button {
-           margin-right: 5px;
-       }
+    .user_states {
+        font-weight: bold;
+    }
+
+	.logo {
+	    
+	    width: 200px;
+	    height: 100px;
+	}
+	form {
+		width: 100%;
+	}
+	.search-input-container {
+	 	flex-direction: row-reverse;
+		display: flex;
+		position: relative;
+		width: 400px;
+		margin-left: 40px;
+		margin-right: auto;
+		position: relative;
+	}
+	
+	.search_box {
+		width: 100%;
+		top: 0px;
+		margin-left: -20px;
+  		height: 40px;
+  		border-radius: 5px;
+  		border: 2px solid grey;
+  		padding: 5px 10px;
+  		font-size: 16px;
+	}
+	
+	.search-icon-container {
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		margin-left: 50px;
+	}
+	
+	.search-btn {
+		background: transparent;
+		border: 0px;
+		
+	}
+	
+	.search-btn:hover {
+		cursor: pointer;
+	}
+	
+	.search-btn-img {
+		position: absolute;
+  		top: 2px;
+  		right: 23px;  		
+	}
 
 </style>
+
 <header>
 <div id="header">
 	<div class = head_top>
@@ -97,14 +146,55 @@
 			    ${id}
 			  </c:otherwise>
 			</c:choose> </span>님 환영합니다!</a>
-		</div>	
-
+		</div>
 	</div>
 	<div class="head_middle">
-        <a href="Mainpage" title="Go_Mainppge"><img src="img/logo2.jpg" alt="로고" class="logo"></a>
-		  <input type="text" placeholder="곡 또는 가수를 입력하세요" class="search_box">
-		<!--<a href="" title="Search"><img src="img/search_icon3.jpg" alt="검색아이콘" class="search_btn"></a>  -->
-	</div>
+	    <a href="Mainpage" title="Go_Mainppge">
+	        <img src="img/logo2.jpg" alt="로고" class="logo">
+	    </a>
+	    <div class="search-input-container">
+	        <form action="/search/${searchKeyword}" method="get">
+	            <input type="text" name="searchKeyword" placeholder="곡 또는 가수를 입력하세요" class="search_box">
+	            <div class="search-icon-container">
+	                <button type="submit" class="search-btn">
+	                    <img src="img/search_icon3.jpg" width="35px" height="35px" alt="검색아이콘" class="search-btn-img">
+	                </button>
+	            </div>
+	        </form>
+	    </div>
+	</div>	
+	<script>
+    // form 태그 가져오기
+    let searchForm = document.querySelector('.search-input-container > form');
+    searchForm.addEventListener("submit", handleSubmit);
+
+    // form 태그의 submit 이벤트 등록
+    searchForm.addEventListener("submit", function(event) {
+        // form submit 이벤트 막기
+        event.preventDefault();
+        // 검색어 가져오기
+        let searchBox = document.querySelector(".search_box");
+        let searchKeyword = searchBox.value;
+
+        // ajax 요청 보내기
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === xhr.DONE) {
+                if (xhr.status === 200 || xhr.status === 201) {
+                    let data = JSON.parse(xhr.responseText);
+                    console.log(data);
+                } else {
+                    console.error(xhr.responseText);
+                }
+            }
+        };
+
+        xhr.open('POST', '/search');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({ keyword: searchKeyword }));
+    });
+	</script>
+	
 	<div class="head_bottom">
 	    <div class="head_bottom_left">
 	      <a href="top100" title="top100"><button class="music_chart_btn">음악차트</button></a>
@@ -135,25 +225,26 @@
 <body>
 <section id="recent_track">
     <h1>최신 음악</h1>
-
     <!-- 장르 버튼 -->
-    <div class="genres">
-    	<button onclick="showGenre('recent')">최신</button>
-        <button onclick="showGenre('dance')">댄스</button>
-        <button onclick="showGenre('hiphop')">힙합</button>
-        <button onclick="showGenre('ballad')">발라드</button>
-    </div>
-
-    <!-- 트랙 1-10 -->
-    <div class="track-wrapper">
-        <c:forEach var="trackInfo_2023" items="${trackInfos_2023}" begin="0" end="9">
-        <div class="track">
-            <img src="${trackInfo_2023.album_image}">
-            <div class="caption">
-                <p>${trackInfo_2023.title}</p>
-                <p>${trackInfo_2023.artist}</p>
+	<div class="genres">
+		<form id="genreForm" method="POST" action="/Mainpage">
+		  <button type="submit" name="Mainpage_Body_genre" value="recent">최신</button>
+		  <button type="submit" name="Mainpage_Body_genre" value="dance">댄스</button>
+		  <button type="submit" name="Mainpage_Body_genre" value="hiphop">힙합</button>
+		  <button type="submit" name="Mainpage_Body_genre" value="ballad">발라드</button>
+		  <button type="submit" name="Mainpage_Body_genre" value="OST">OST</button>
+		</form>
+	</div>	
+    <!--최신음악 트랙 1-10 -->
+    <div class="track-wrapper"> 
+        <c:forEach var="trackInfo_Mainpage_genres" items="${trackInfos_Mainpage_genres}" begin="0" end="9">
+            <div class="track">
+                <img src="${trackInfo_Mainpage_genres.album_image}">
+                <div class="caption">
+                    <p>${trackInfo_Mainpage_genres.title}</p>
+                    <p>${trackInfo_Mainpage_genres.artist}</p>
+                </div>
             </div>
-        </div>
         </c:forEach>
     </div>
 </section>
@@ -194,7 +285,6 @@
         <p>dkfsjkldf : dskgjlskglk</p>
         <p>dkfsjkldf : dskgjlskglk</p>
         <p>dkfsjkldf : dskgjlskglk</p>
-    </div>
-    
+    </div>    
 </footer>
 </html>

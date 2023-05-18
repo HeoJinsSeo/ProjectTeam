@@ -1,6 +1,11 @@
 package com.study.springboot;
 
+import com.study.springboot.Functions;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class hjs_LoginController {
+	
+	// 함수 호출
+		Functions functions = new Functions();
+	    
+	    @Autowired
+	    UserService userService;
+	    
+	
+	
 	
 	@RequestMapping("/music")
 	public String music() {
@@ -23,7 +40,7 @@ public class hjs_LoginController {
 	public String login7() {
 		System.out.println("/login7");
 		
-		return "login";
+		return "hjs_login";
 	}
 	@RequestMapping("/main1")
 	public String login() {
@@ -92,5 +109,38 @@ public class hjs_LoginController {
 		System.out.println("/chart");
 		
 		return "hjs_newalbum";
+	}
+	
+	@GetMapping("/musicchart_2")
+	public String Mainpage(Model model) throws IOException, ParseException {
+		List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+		List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);
+		List<TrackInfo> trackInfos_like = functions.getPopularTracks(trackInfos);
+		
+    	model.addAttribute("trackInfos", trackInfos);
+    	model.addAttribute("trackInfos_Like",trackInfos_like);
+    	
+    	for(TrackInfo track : trackInfos_like)
+    	{
+    		System.out.println("track : " +track.getTitle());
+    	}
+		
+    
+		return "hjs_top100top100";
+	}
+	
+	
+	@RequestMapping("/music4u")
+	public String Mainpage1(Model model) throws IOException, ParseException {
+		List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+		List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);
+		
+		
+		model.addAttribute("trackInfos", trackInfos);
+		model.addAttribute("trackInfos_2023", trackInfos_2023);
+    	
+		System.out.println("music4u");
+		
+		return "hjs_music4u";
 	}
 }

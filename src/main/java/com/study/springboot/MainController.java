@@ -1,5 +1,6 @@
 package com.study.springboot;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.study.springboot.Functions;
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,9 +29,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 
@@ -45,7 +48,9 @@ public class MainController
 {
 	// 함수 호출
 	Functions functions = new Functions();
-    
+	// 메인페이지 
+	String Mainpage_genre_state = "recent";
+  
     @Autowired
     UserService userService;
     
@@ -70,27 +75,62 @@ public class MainController
         return "Signup";
     }
     
-    // 회원가입 처리용 컨트롤러
-    // @RequestParam("id")를 해놓은 이유는 submit 할떄 값을 받기 위함
-    @PostMapping("/Signup")
-    public String Signup(@RequestParam("id") String id,			
-    					 @RequestParam("password") String password,
-    					 @RequestParam("age") int age,
-    					 @RequestParam("preference") String preference
-    					 ) {
-    	System.out.println("회원가입 처리 완료");						// 동작 확인용 메세지
-        User user = new User(id, password, age, preference, 1);		// rank 는 따로 입력사항이 없기 때문에 기본값으로 1을 넣었습니다
-        userService.save(user);
-        // 세이브 성공시 메인페이지 이동
-        return "redirect:/Mainpage";
-    }
-     
     // 로그인 페이지 진입용 컨트롤러
     @GetMapping("/login")
     public String login() {
         System.out.println("로그인 페이지 진입");
         return "login";
     }
+    
+    
+	 // 로그인 시 csv파일을 ajax로 변환해 /users로 보낸 후	
+	 // login.jsp에 스크립트 단에서 /users로 간 데이터를 읽어서 대조하기위한 컨트롤러
+    @GetMapping("/users")
+    @ResponseBody
+    public String ajaxUsers() {
+        List<User> userList = null;
+
+        try {
+            userList = functions.getUserListFromCSV();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonResult = "";
+
+        try {
+            jsonResult = mapper.writeValueAsString(userList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return jsonResult;
+    }
+    
+    // 회원가입 완료 페이지 컨트롤러
+    @RequestMapping("/SignupSuccess")
+    public String SignupSuccess() {
+    	System.out.println("회원가입 완료 페이지 진입");
+    	return "SignupSuccess";
+    }
+    
+	 // 회원가입 처리용 컨트롤러
+	 // @RequestParam("id")를 해놓은 이유는 submit 할떄 값을 받기 위함
+    
+	 @PostMapping("/Signup")
+	 public String Signup(@RequestParam("id") String id,
+	 @RequestParam("password") String password,
+	 @RequestParam("age") int age,
+	 @RequestParam("preference") String preference
+	 ) {	
+		 System.out.println("회원가입 처리 완료"); // 동작 확인용 메세지
+		 User user = new User(id, password, age, preference, 1); // rank 는 따로 입력사항이 없기 때문에 기본값으로 1을 넣었습니다
+		 userService.save(user);
+		
+		 // 세이브 성공시 메인페이지 이동
+		 return "redirect:/SignupSuccess";
+	 }
     
     // 로그인 처리용 컨트롤러
     @PostMapping("/login")
@@ -129,14 +169,21 @@ public class MainController
     
     // 메인 페이지 컨트롤러
     @GetMapping("/Mainpage")
-    public String Mainpage(HttpServletRequest req, Model model) throws IOException, ParseException {
+    public String Mainpage(HttpServletRequest req,
+    					   Model model
+    					   ) throws IOException, ParseException {
     	
     	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
-    	List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);    	
+    	List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);
     	
-    	HttpSession session = req.getSession();
+    	// 모델
     	model.addAttribute("trackInfos", trackInfos);
-    	model.addAttribute("trackInfos_2023",trackInfos_2023);
+    	model.addAttribute("trackInfos_Mainpage_genres", trackInfos_2023);
+    	
+        // 최초 진입시 메인페이지 장르를 "recent"로 설정합니다
+        model.addAttribute("Mainpage_Body_genre", "recent");
+ 
+    	HttpSession session = req.getSession();
     	
     	// 세션에서 계정 정보를 읽어옵니다
     	String id = (String) session.getAttribute("id");
@@ -149,11 +196,176 @@ public class MainController
         System.out.println("age : " + age);
         System.out.println("preference : " + preference);
         System.out.println("rank : " + rank);
+        
+
                     
         return "Mainpage";
     }
     
-    // 회원가입 페이지 진입용 컨트롤러
+    // 메인페이지 바디 최신음악 컨트롤러
+    @PostMapping("/Mainpage")
+    public String Mainpage_Body_Genres(Model model,
+    									@RequestParam("Mainpage_Body_genre") String genre) throws IOException, ParseException {
+    	
+    	// 호출용 전체 트랙
+    	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+    	List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);
+  	    	
+    	// 장르 상태 변경
+    	switch(genre)
+    	{
+    		case "recent":
+    			trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);
+    			model.addAttribute("trackInfos_Mainpage_genres", trackInfos_2023);
+    			System.out.println("최신장르 변경완료");
+    			break;    			
+    		case "dance":
+    			List<TrackInfo> trackInfos_Dance_Random = functions.getRandomDanceTracks(trackInfos);
+    			model.addAttribute("trackInfos_Mainpage_genres", trackInfos_Dance_Random);
+    			System.out.println("댄스 변경완료");
+    			break;
+    		case "hiphop":
+    			List<TrackInfo> trackInfos_Hiphop_Random =
+    			functions.getRandomHiphopTracks(trackInfos);
+    			model.addAttribute("trackInfos_Mainpage_genres", trackInfos_Hiphop_Random);
+    			System.out.println("힙합 변경완료");
+    			break;
+    		case "ballad":
+    			List<TrackInfo> trackInfos_Ballad_Random = functions.getRandomBalladTracks(trackInfos);
+    			model.addAttribute("trackInfos_Mainpage_genres", trackInfos_Ballad_Random);
+    			System.out.println("발라드 변경완료");
+    			break;
+    		case "OST":
+    			List<TrackInfo> trackInfos_OST_Random = functions.getRandomOSTTracks(trackInfos);
+    			model.addAttribute("trackInfos_Mainpage_genres", trackInfos_OST_Random);
+    			System.out.println("OST 변경완료");
+    			break;
+    		default:
+    			model.addAttribute("trackInfos_Mainpage_genres", trackInfos_2023);
+    	}   
+    	
+        System.out.println("메인페이지 바디 장르변경 완료"); 	// 동작 확인용     	
+            	
+        return "/Mainpage";	
+    }
+    
+    // 내정보 페이지 진입용 컨트롤러
+    @GetMapping("/mymusic_test")
+    public String myMusic_test(HttpServletRequest req,
+    					  Model model
+    					  ) throws IOException, ParseException {
+    	
+    	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+    	//List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);
+    	model.addAttribute("trackInfos", trackInfos);
+
+        System.out.println("마이뮤직 페이지 진입");
+        
+        /*for(TrackInfo track : trackInfos)
+        {
+        	System.out.println(track.getArtist());
+        }*/     
+    	
+        return "mymusic_test";
+    }
+    
+    // 음악 담기 기능
+    @PostMapping("addTrack")
+    public String addtrack(HttpServletRequest req,
+			  Model model,
+			  @RequestParam("addTrack") Integer add_track
+			  ) throws IOException, ParseException {
+    	
+    	HttpSession session = req.getSession();
+    	
+    	Integer rank = (Integer) session.getAttribute("rank");
+    	
+        // rank 값이 null이거나 1보다 작을 경우 음악 담기가 제한됩니다.
+        if (rank == null || rank < 1) {
+            System.out.println("방문객이면 음악 담기 제한");
+            return "redirect:/mymusic_test";
+        }
+    	
+    	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+    	List<Integer> addedTracks = (List<Integer>) session.getAttribute("addedTracks");
+    	
+        if (addedTracks == null) {
+            addedTracks = new ArrayList<>();
+        }
+
+        if (!addedTracks.contains(add_track)) {
+            addedTracks.add(add_track);
+            session.setAttribute("addedTracks", addedTracks);
+            System.out.println("음악 담기 성공");
+            System.out.println("담은 곡: " + add_track);
+        } else {
+            System.out.println("이미 담긴 곡입니다");
+        }     
+    	
+    	return "redirect:/mymusic_test";
+    }
+    
+    // 음악 빼기 컨트롤러
+    @GetMapping("/removeTrack")
+    public String removetrack(HttpServletRequest req,
+			  @RequestParam("trackId") Integer trackId,
+			  @RequestParam("action") String action
+			  ) throws IOException, ParseException {
+    	
+    	HttpSession session = req.getSession();
+    	
+    	// html 에서 전달하는 전달값이 remove 라면 동작
+        if (action.equals("remove")) {
+            List<Integer> addedTracks = (List<Integer>) session.getAttribute("addedTracks");
+            List<TrackInfo> selectedTracks = (List<TrackInfo>) session.getAttribute("selectedTracks");
+
+            if (addedTracks != null && selectedTracks != null) {
+                // 선택된 트랙에서 제외할 트랙을 제거합니다.
+                addedTracks.remove(trackId);
+                selectedTracks = functions.getTracksByExcludedIds(addedTracks, selectedTracks);
+                
+                System.out.println("음악 삭제 성공");
+                System.out.println("삭제한 곡: " + trackId);
+
+                // 세션에 업데이트된 값들을 저장합니다.
+                session.setAttribute("addedTracks", addedTracks);
+                session.setAttribute("selectedTracks", selectedTracks);
+            }
+        }    	
+    	return "redirect:/mymusic";
+    }
+    
+    // 내정보 페이지 진입용 컨트롤러
+    @GetMapping("/mymusic")
+    public String myMusic(HttpServletRequest req,
+    					  Model model
+    					  ) throws IOException, ParseException {
+    	// 전체 트랙 불러오기
+    	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+    	// 세션 시작
+    	HttpSession session = req.getSession();
+    	
+    	List<Integer> addedTracks = (List<Integer>) session.getAttribute("addedTracks");
+    	// addedTracks 가 null 값일때도 실행되게 초기화하는 코드
+        if (addedTracks == null) {
+            addedTracks = new ArrayList<>();
+        }
+        // 선택한 곡 넣기
+    	List<TrackInfo> selectedTracks = functions.getTracksByAddedIds(addedTracks,trackInfos);
+    	
+    	session.setAttribute("selectedTracks", selectedTracks);
+
+        System.out.println("마이뮤직 페이지 진입");
+        
+        for(Integer track : addedTracks)
+        {
+        	System.out.println("저장한 트랙 넘버 : " + track);
+        }    
+    	
+        return "mymusic";
+    }
+    
+    // 내정보 페이지 진입용 컨트롤러
     @GetMapping("/myInfo")
     public String myinfo(HttpServletRequest req) {
     	
@@ -164,7 +376,7 @@ public class MainController
     	String preference = (String) session.getAttribute("preference");
     	Integer rank = (Integer) session.getAttribute("rank");
     	
-        System.out.println("내정ㅂ 페이지 진입");
+        System.out.println("내정보 페이지 진입");
         System.out.println("id : " + id);
         System.out.println("age : " + age);
         System.out.println("preference : " + preference);
@@ -172,7 +384,4 @@ public class MainController
     	
         return "myInfo";
     }
-
-
 }
-

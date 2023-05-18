@@ -16,10 +16,9 @@
 <link rel="stylesheet" href="/login.css">
 
 <body style="text-align: center">
-<<<<<<< HEAD
 
 <p>안녕하세요. 로그인을 해주세요:)</p>
-=======
+
 <div class="logo">
 <a href="#">
 	<img src="img/logo2.jpg" alt="이미지">
@@ -61,13 +60,9 @@
 </div>
 <br>
 
-<<<<<<< HEAD
 <input id="button" type="button" onclick="location.href='/Signup';" value="회원가입하기">
-   
-=======
-
 <input id="button" type="button" onclick="location.href='/join';" value="광고배너">
->>>>>>> 23da742ee4d3e6263ecae42ebd1cbd6e46bc56f4
+
 <br>
 <br>
 

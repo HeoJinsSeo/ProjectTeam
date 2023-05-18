@@ -72,9 +72,12 @@
     }
     
     .head_middle {
-	    display: flex-start;
-	    justify-content: space-between;
-	    position : relative;
+    	display:flex;
+    	justify-content: center;
+    	align-items: center;
+    	position: relative;
+	    width: 80%;
+	    margin: 0 auto;
 	}	
 	
     .head_bottom {
@@ -103,34 +106,58 @@
     }
 
 	.logo {
-	    flex-shrink: 0;
+	    
 	    width: 200px;
 	    height: 100px;
 	}
-	.search_box {
-		position:absolute;
-		top : 40px;
-	    margin-left: 30px;
-	    width: 400px;
-	    height: 40px;
-	    padding: 4px;
-	    border-radius: 4px;
-	    border: 2px solid black;
-	    font-size: 16px;
+	form {
+		width: 100%;
 	}
-	/*.search_btn {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 30px;
-		height: 30px;
-		padding: 4px;
-		border: none;
-		background-color: #ddd;
-		color: #333;
-		font-size: 14px;
+	.search-input-container {
+	 	flex-direction: row-reverse;
+		display: flex;
+		position: relative;
+		width: 400px;
+		margin-left: 40px;
+		margin-right: auto;
+		position: relative;
+	}
+	
+	.search_box {
+		width: 100%;
+		top: 0px;
+		margin-left: -20px;
+  		height: 40px;
+  		border-radius: 5px;
+  		border: 2px solid grey;
+  		padding: 5px 10px;
+  		font-size: 16px;
+	}
+	
+	.search-icon-container {
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		margin-left: 50px;
+	}
+	
+	.search-btn {
+		background: transparent;
+		border: 0px;
+		
+	}
+	
+	.search-btn:hover {
 		cursor: pointer;
-	}*/
+	}
+	
+	.search-btn-img {
+		position: absolute;
+  		top: 2px;
+  		right: 23px;  		
+	}
+
 	
 	/*--------------------------------------------------------------------------------*/
 	/*-------------이 부분부터 body 쪽 css 입니다------------------------------------------*/
