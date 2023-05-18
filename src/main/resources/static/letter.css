@@ -1,0 +1,11 @@
+@charset "UTF-8";
+html{text-align: center;}
+table{position: relative; width: 100%; background-color: #e6e6e6; border-radius: 10px;  border-spacing: 0;
+        border-collapse:separates; font-size: large;}
+td, th { border: 1px solid black; border-radius: 5px;}
+.title{width: 60%}
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+}

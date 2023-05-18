@@ -150,7 +150,7 @@ public class Functions
     	List<TrackInfo> getTrackInfoFromXlsx() throws IOException, ParseException {
     	// 엑셀 파일을 읽어들일 FileInputStream 객체 생성
     	// 경로는 사용자 환경에 맞게 세팅해주셔야합니다
-    	FileInputStream fis = new FileInputStream(new File("C:\\Users\\h\\Desktop\\ProjectTeam\\src\\main\\resources\\metadata\\music_all_230510(1).xlsx"));
+    	FileInputStream fis = new FileInputStream(new File("C:\\Users\\User\\Desktop\\ProjectTeam\\ProjectTeam\\src\\main\\resources\\metadata\\music_all_230510(1).xlsx"));
     	
     	// XSSFWorkbook 객체를 생성하여 엑셀 파일을 읽음
     	XSSFWorkbook workbook = new XSSFWorkbook(fis);
