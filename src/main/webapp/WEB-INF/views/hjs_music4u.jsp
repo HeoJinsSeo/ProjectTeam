@@ -62,10 +62,8 @@
 
 		</div>
 	
-		<table>
-		
-			<thead>
-				
+		<table>		
+			<thead>				
 					<th><input type="checkbox" name="check" id="checkbox">
                             <div class="checkmark"></div></th>
 					<th>¼øÀ§</th>

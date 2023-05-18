@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.HashMap;
 
 import org.apache.poi.ss.usermodel.Row;
@@ -28,18 +29,17 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-<<<<<<< HEAD
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-=======
->>>>>>> 94cefdee3a42369eca174cf2caed874bfee7220b
 /**
  * 
  * @author 박정수
@@ -389,9 +389,7 @@ public class MainController
     	
         return "myInfo";
     }
-<<<<<<< HEAD
-}
-=======
+
     @RequestMapping("/musicInfo")
     public String musicInfo(HttpServletRequest request, Model model) throws IOException, ParseException {
         // 클릭 이벤트에서 전달된 track_id 값을 가져옴
@@ -429,5 +427,71 @@ public class MainController
             }
         }
         return null;  // 일치하는 트랙을 찾지 못한 경우 null 반환
-    }}
->>>>>>> 94cefdee3a42369eca174cf2caed874bfee7220b
+    }
+    
+    @GetMapping("/infos")
+    @ResponseBody
+    public String ajaxTrackInfos(HttpServletRequest request, HttpServletResponse response) {
+    	
+    	// session
+    	HttpSession session = request.getSession();
+    	
+    	
+    	List<TrackInfo> trackInfoList = null;
+    	try {
+    		trackInfoList = functions.getTrackInfoFromXlsx();
+    		session.setAttribute("trackInfoList", trackInfoList);
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	} catch (ParseException e) {
+    		e.printStackTrace();
+    	}
+    	ObjectMapper mapper = new ObjectMapper();
+    	String jsonResult ="";
+    	try {
+    		jsonResult = mapper.writeValueAsString(trackInfoList);
+    	} catch (JsonProcessingException e) {
+    		e.printStackTrace();
+    	}
+    	response.setContentType("application/json; charset=UTF-8"); // content type 설정
+    	
+    	return jsonResult;
+    }
+    
+    @GetMapping("/search/{keyword}")
+    public String search(@PathVariable("keyword")String keyword,
+    					Model model,
+    					HttpServletRequest request) {
+    	
+    	// session
+    	HttpSession session = request.getSession();
+    	List list = (List) session.getAttribute("trackInfoList");
+    	
+    	String lowerCaseKeyword = keyword.toLowerCase();
+    	
+    	// Get track data list from Excel file.
+    	List<TrackInfo> trackInfoList = null;
+    	try {
+    		trackInfoList = functions.getTrackInfoFromXlsx();
+    	} catch(IOException|ParseException e) {
+    		e.printStackTrace();
+    	}
+    	// Filter track data according to search keyword
+    	List<TrackInfo> filteredList = trackInfoList.stream()
+    		.filter(trackInfo -> trackInfo.getAlbum_image().toLowerCase().contains(lowerCaseKeyword)
+    				|| trackInfo.getTitle().toLowerCase().contains(lowerCaseKeyword)
+    				|| trackInfo.getArtist().toLowerCase().contains(lowerCaseKeyword)
+    				|| trackInfo.getAlbum().toLowerCase().contains(lowerCaseKeyword)
+    				|| trackInfo.getRelease_date().toLowerCase().contains(lowerCaseKeyword)
+    				|| String.valueOf(trackInfo.getLike_count()).toLowerCase().contains(lowerCaseKeyword)
+    				|| trackInfo.getNews1().toLowerCase().contains(lowerCaseKeyword)
+    				|| trackInfo.getNews2().toLowerCase().contains(lowerCaseKeyword)
+    				|| trackInfo.getNews3().toLowerCase().contains(lowerCaseKeyword))
+    		.collect(Collectors.toList());
+    	// searchResults를 뷰로 전달
+    	model.addAttribute("searchResults", filteredList);
+    	// search.jsp 뷰를 반환
+    	return "search";
+    }
+}
+

@@ -3,6 +3,7 @@ package com.study.springboot;
 import com.study.springboot.Functions;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,6 @@ public class hjs_LoginController {
 	    
 	    @Autowired
 	    UserService userService;
-	    
-	
-	
 	
 	@RequestMapping("/music")
 	public String music() {
@@ -123,8 +121,7 @@ public class hjs_LoginController {
     	for(TrackInfo track : trackInfos_like)
     	{
     		System.out.println("track : " +track.getTitle());
-    	}
-		
+    	}	
     
 		return "hjs_top100top100";
 	}
@@ -133,8 +130,7 @@ public class hjs_LoginController {
 	@RequestMapping("/music4u")
 	public String Mainpage1(Model model) throws IOException, ParseException {
 		List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
-		List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);
-		
+		List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);		
 		
 		model.addAttribute("trackInfos", trackInfos);
 		model.addAttribute("trackInfos_2023", trackInfos_2023);
@@ -143,4 +139,5 @@ public class hjs_LoginController {
 		
 		return "hjs_music4u";
 	}
+
 }

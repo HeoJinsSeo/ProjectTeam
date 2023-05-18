@@ -1,18 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Collections" %>
-<%@ page import="com.study.springboot.MainController" %>
 <%@ page import="com.study.springboot.TrackInfo" %>
-<%@ page import="com.study.springboot.letterController" %>
-<%@ page import="com.study.springboot.hjs_LoginController" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>HYPEMUSIC STUDIO</title>
+<meta charset="UTF-8">
+<title>${keyword }에 대한 검색결과</title>
 <link rel="stylesheet" href="/Mainpage.css?after">
-<link rel="stylesheet" href="/footer.css">
 </head>
 <header>
 <div id="header">
@@ -85,68 +82,78 @@
 	        <hr class="header_line">        
 </header>
 <body>
-<section id="recent_track">
-    <h1>최신 음악</h1>
-    <!-- 장르 버튼 -->
-	<div class="genres">
-		<form id="genreForm" method="POST" action="/Mainpage">
-		  <button type="submit" name="Mainpage_Body_genre" class ="Mainpage_genre_btn" value="recent">최신</button>
-		  <button type="submit" name="Mainpage_Body_genre" class ="Mainpage_genre_btn" value="dance">댄스</button>
-		  <button type="submit" name="Mainpage_Body_genre" class ="Mainpage_genre_btn" value="hiphop">힙합</button>
-		  <button type="submit" name="Mainpage_Body_genre" class ="Mainpage_genre_btn" value="ballad">발라드</button>
-		  <button type="submit" name="Mainpage_Body_genre" class ="Mainpage_genre_btn" value="OST">OST</button>
-		</form>
-	</div>	
-    <!--최신음악 트랙 1-10 -->
-    <div class="track-wrapper"> 
-        <c:forEach var="trackInfo_Mainpage_genres" items="${trackInfos_Mainpage_genres}" begin="0" end="9">
-            <div class="track">
-                <img src="${trackInfo_Mainpage_genres.album_image}">
-                <div class="caption">
-                    <p>${trackInfo_Mainpage_genres.title}</p>
-                    <p>${trackInfo_Mainpage_genres.artist}</p>
-                </div>
-            </div>
-        </c:forEach>
-    </div>
-</section>
+<div id="keyword-container">
+	<h1>"${keyword }"&nbsp에 대한 검색결과입니다</h1>
+</div>
+<div id="search-result-container">
+	<c:forEach var="searchResult" items="${searchResults }">
+		<div>
+			<img src="${searchResult.album_image }" width="128px" height="128px">
+			<h4>${searchResult.title }</h4>
+			<a href="#">곡 정보</a>
+			<p>${searchResult.artist }</p>
+			<p>${searchResult.album }</p>
+			<p>${searchResult.release_date }</p>
+			<p>${searchResult.like_count }</p>
+			<a href="${searchResult.news1 }">news1</a>
+			<a href="${searchResult.news2 }">news2</a>
+			<a href="${searchResult.news2 }">news3</a>
+			<input type="button" name="play" value="재생">
+			<input type="button" name="add" value="담기">
+		</div>
+	</c:forEach>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+	$(document).ready(function(){
+		// 결과 페이지가 로딩될 때, 아래 코드가 실행됩니다.
+	    let trackInfos = [];
+	    $.ajax({
+			url: "/infos", // AJAX 요청을 보낼 URL
+			method: "GET", // 요청 방식
+			dataType: "json", // 데이터 타입
+			success: function(jsonStr){
+				// AJAX 요청이 성공할 경우 실행되는 함수
+				trackInfos = JSON.parse(jsonStr);
+				let searchResults = [];
+	            let searchParams = new URLSearchParams(document.location.search.substring(1));
+	            let keyword = searchParams.get("keyword").toLowerCase();
+	            $.each(trackInfos, function(index, item){
+	            	// 검색어로 필터링된 리스트를 생성
+	                if(item.album_image.toLowerCase().indexOf(keyword) > -1
+	                   || item.title.toLowerCase().indexOf(keyword) > -1 
+	                   || item.artist.toLowerCase().indexOf(keyword) > -1 
+	                   || item.album.toLowerCase().indexOf(keyword) > -1
+	                   || item.release_date.toLowerCase().indexOf(keyword) > -1
+	                   || item.like_count.toLowerCase().indexOf(keyword) > -1
+	                   || item.news1.toLowerCase().indexOf(keyword) > -1
+	                   || item.news2.toLowerCase().indexOf(keyword) > -1
+	                   || item.news3.toLowerCase().indexOf(keyword) > -1){
+	                    searchResults.push(item);
+	                }
+	            });
+	            let resHTML = '';
+	            for(let i=0;i<searchResults.length;i++){
+	            	let trackInfo = searchResults[i];
+	            	resHTML += `
+	            	<div>
+	            		<h4>${trackInfo.title}</h4>
+	            		<p>${trackInfo.artist}</p>
+	            		<p>${trackInfo.album}</p>
+	            	</div>`;
+	            }
+	            // HTML 출력
+	            $('#search-result-container').html(resHTML);
+			},
+			error: function(){
+				// AJAX 요청이 실패할 경우 실행되는 함수
+				alert("An error occured!");
+			}
+		});
+	});
+
+</script>
 
 </body>
-<!--  선아님 Footer -->
-<footer>
-    <hr>
-    <div>
-        <ui class="footernav">
-            <li><a href="#" class ="footer_text">이용약관</a></li>
-            <li><a href="#" class ="footer_text">위치기반서비스 이용약관</a></li>
-            <li><a href="#" class ="footer_text">개인정보처리방침</a></li>
-            <li><a href="#" class ="footer_text">제휴/프로모션</a></li>
-            <li><a href="#" class ="footer_text">이메일주소무단</a></li>
-            <li><a href="#" class ="footer_text">파트너센터</a></li>
-            <li><a href="#" class ="footer_text">문의사항</a></li>
-        </ui>
-    </div>
-
-    <hr id="hr">
-
-    <div class="info">
-        <p>(주)하입봇엔터테인먼트</p>
-        <p>영등포구 휴먼교육</p>
-        <p>sksksksksk</p>
-        <p>sdkgdnskldgnlds</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-    </div>
-
-    <div class="info2">
-        <p>(주)하입봇엔터테인먼트</p>
-        <p>영등포구 휴먼교육</p>
-        <p>sksksksksk</p>
-        <p>sdkgdnskldgnlds</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-    </div>    
-</footer>
 </html>
