@@ -38,8 +38,11 @@ public class letterController {
 	}
 
 	@RequestMapping({"/letter_table"})
-	public String letter(Model model, @RequestParam(value = "inputValue", required = false) String inputValue) {
-		int length = 20;
+	public String letter(Model model, @RequestParam(value = "inputValue", required = false) String inputValue,
+			 @RequestParam(value = "pageNumber", required = false) Integer pageNumber) {
+		
+		//저장소 연결 필수 
+		int length = 30;
 		if (inputValue != null) {
 			++length;
 		}
@@ -63,8 +66,15 @@ public class letterController {
 			Letter letter = new Letter(date, inputValue, writer, like);
 			letterList.add(letter);
 		}
-
+		if(pageNumber == null) {
+			pageNumber=0;
+		}
+		else {
+			pageNumber= (pageNumber-1)*10;
+		}
+		System.out.println(pageNumber);
 		model.addAttribute("length", length);
+		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("letter", letterList);
 		return "letter_table";
 	}

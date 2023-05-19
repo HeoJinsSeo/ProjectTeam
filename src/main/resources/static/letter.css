@@ -1,11 +1,21 @@
 @charset "UTF-8";
-html{text-align: center;}
+html{text-align: center; margin: 0; padding: 0;}
+
+.latterBox{ border: 5px solid #000;}
 table{position: relative; width: 100%; background-color: #e6e6e6; border-radius: 10px;  border-spacing: 0;
-        border-collapse:separates; font-size: large;}
+        border-collapse:separates; font-size: large; }
 td, th { border: 1px solid black; border-radius: 5px;}
+thead{position: sticky;top: 0;background-color: #fff;}
+tbody{}
+.order{}
+.date{}
 .title{width: 60%}
-thead th {
-  position: sticky;
-  top: 0;
-  background-color: #fff;
-}
+.writer{}
+.like{}
+.postAll{display:inline-block;}
+.pageClick{}
+.pageNumber{box-sizing: border-box; }
+.numberStyle{}
+form{}
+button{font-weight: 900;}
+button:hover {background-color: skyblue;}
