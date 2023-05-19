@@ -73,7 +73,7 @@
 	      <a href="/magazine" title="starmagazine"><button class="star_magazine_btn">스타매거진</button></a>
 	      <a href="/hotmv" title="hotmv"><button class="popular_music_video_btn">인기 뮤직비디오</button></a>
 	      <a href="/music4u" title="music4u"><button class="music_4u_btn">뮤직4U</button></a>
-	      <button class="board_btn" onclick="loadLetterTable()">게시판</button>
+	      <a href="/letter_table" title="board"><button class="board_btn" >게시판</button></a>
 	      <a href="/mymusic" title="mymusic"><button class="my_music_btn">마이뮤직</button></a>	      
 	    </div> 
 	    <div class="head_bottom_right">

@@ -87,7 +87,7 @@
 						${loop.index + 1}
 					</td>					
 					<!--  곡정보 이미지 추가 -->
-					<td><a href="/musicInfo?track_id=${searchResult.track_id }" id="info"><img src = "/img/music_info_icon2.jpg" style="border: none; width: 25px; height: 30px;"></a></td>
+					<td><a href="/musicInfo?track_id=${trackInfo_like.track_id }" id="info"><img src = "/img/music_info_icon2.jpg" style="border: none; width: 25px; height: 30px;"></a></td>
 					<td>
 						 <div class="track">
           				 <a href="/musicInfo?track_id=${trackInfo_like.track_id }"><img src="${trackInfo_like.album_image}"></a>

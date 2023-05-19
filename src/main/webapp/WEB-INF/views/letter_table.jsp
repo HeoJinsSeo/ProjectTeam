@@ -161,4 +161,8 @@ function nextPage() {
     }*/
     
 </script>
+<!--  선아님 Footer -->
+<footer>
+<jsp:include page="footer.jsp"></jsp:include>   
+</footer>
 </html>
