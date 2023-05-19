@@ -12,7 +12,9 @@
     .popular_music_video_btn,
     .music_4u_btn,
     .board_btn,
-    .my_music_btn {
+    .my_music_btn,
+    .Mainpage_genre_btn
+     {
         background-color: white;
         border: none;
         color: gray;
@@ -24,7 +26,7 @@
         margin: 4px 2px;
         cursor: pointer;
         border-radius: 8px;
-    }
+    }  
     
     .buy_ticket_btn:hover,
     .login_btn:hover,
@@ -38,7 +40,8 @@
     .popular_music_video_btn:hover,
     .music_4u_btn:hover,
     .board_btn:hover,
-    .my_music_btn:hover {
+    .my_music_btn:hover,
+    .Mainpage_genre_btn:hover {
       background-color: #ffffff;
       color: #000000;
       font-weight: bold;
@@ -72,9 +75,12 @@
     }
     
     .head_middle {
-	    display: flex-start;
-	    justify-content: space-between;
-	    position : relative;
+    	display:flex;
+    	justify-content: center;
+    	align-items: center;
+    	position: relative;
+	    width: 80%;
+	    margin: 0 auto;
 	}	
 	
     .head_bottom {
@@ -103,81 +109,56 @@
     }
 
 	.logo {
-	    flex-shrink: 0;
+	    
 	    width: 200px;
 	    height: 100px;
 	}
-	.search_box {
-		position:absolute;
-		top : 40px;
-	    margin-left: 30px;
-	    width: 400px;
-	    height: 40px;
-	    padding: 4px;
-	    border-radius: 4px;
-	    border: 2px solid black;
-	    font-size: 16px;
+	form {
+		width: 100%;
 	}
-	/*.search_btn {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 30px;
-		height: 30px;
-		padding: 4px;
-		border: none;
-		background-color: #ddd;
-		color: #333;
-		font-size: 14px;
-		cursor: pointer;
-	}*/
+	.search-input-container {
+	 	flex-direction: row-reverse;
+		display: flex;
+		position: relative;
+		width: 400px;
+		margin-left: 40px;
+		margin-right: auto;
+		position: relative;
+	}
 	
-	/*--------------------------------------------------------------------------------*/
-	/*-------------이 부분부터 body 쪽 css 입니다------------------------------------------*/
-    #recent_track{	    
-    	margin-left:105px;
-     }
-       .track {
-           display: inline-block;
-           width: 200px;
-           height: 200px;
-           margin: 2px;
-           position: relative;
-           overflow: hidden;
-       }
-    .track-wrapper {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 2px;
-        justify-items: center; /* 가로 중앙 정렬을 위해 추가 */
-     }       
-
-       .track img {
-           width: 100%;
-           height: 100%;
-           object-fit: cover;
-       }
-
-       .track .caption {
-           position: absolute;
-           bottom: 0;
-           left: 0;
-           width: 100%;
-           background-color: rgba(0, 0, 0, 0.7);
-           color: #fff;
-           padding: 10px;
-           opacity: 0;
-           transition: opacity 0.3s ease;
-       }
-       
-       .track:hover .caption {
-           opacity: 1;
-       }
-               .pagination {
-           margin-top: 20px;
-       }
-
-       .pagination button {
-           margin-right: 5px;
-       }
+	.search_box {
+		width: 100%;
+		top: 10px;
+		margin-top: 40px;
+		margin-left: -30px;
+  		height: 30px;
+  		border-radius: 5px;
+  		border: 2px solid grey;
+  		padding: 5px 10px;
+  		font-size: 16px;
+	}
+	
+	.search-icon-container {
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		margin-left: 50px;
+	}
+	
+	.search-btn {
+		background: transparent;
+		border: 0px;
+		
+	}
+	
+	.search-btn:hover {
+		cursor: pointer;
+	}
+	
+	.search-btn-img {
+		position: absolute;
+  		top: 43px;
+  		right: 15px;  		
+	}		
 

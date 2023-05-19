@@ -8,7 +8,6 @@
 </head>
 <link rel="stylesheet"  href="/MusicHot.css">
 <body>
-
 <div class="container1">
 	<div class="album1" alt="¾Ù¹ü">
 		<a href="javascript:melon.link.goAlbumDetail('11240309');">
@@ -48,4 +47,7 @@
 </div>
 
 </body>
+<footer>
+<jsp:include page="footer.jsp"></jsp:include>   
+</footer>
 </html>

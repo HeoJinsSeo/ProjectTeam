@@ -1,4 +1,5 @@
 @charset "EUC-KR";
+
 html {
 		background-color: #ebebeb;
 	}
@@ -64,19 +65,24 @@ html {
 		width: 310px;
 	}
 	
-	.find-a {
-		background-color: transparent;
-		border: none;
-		color: #808080;
+	.notice {
+		margin-top: 8px;
+		width: 360px;
+		font-size: 11px;
+		color : hotpink;
+		text-align: left;
+	}
+	#preference {
+		text-align: center;
+		font-size: 16px;
+		height: 40px;
+		width: 310px;
 	}
 	
-	.find-a:hover{
-		cursor: pointer;
+	.genre-options {
+		font-size: 16px;
+		font-weight: light;
 	}
-	
-	#divide {
-		color: #808080;
-	}	
 	
 	#submit {
 		font-size: 18px;
@@ -87,23 +93,6 @@ html {
 	}
 	
 	#submit:hover {
-		background-color: #faaad8;
-		cursor: pointer;
-		font-weight: bold;
-		border: 2px solid grey;
-
-	}
-	
-	#signup {
-		text-align: center;
-		font-size: 18px;
-		background-color: #fec5e5;
-		color: white;
-		height: 50px;
-		width: 280px;
-	}
-	
-	#signup:hover {
 		background-color: #faaad8;
 		cursor: pointer;
 		font-weight: bold;
