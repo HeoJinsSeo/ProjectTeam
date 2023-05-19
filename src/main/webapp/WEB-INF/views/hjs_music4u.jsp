@@ -12,6 +12,10 @@
 <title>music4u</title>
 </head>
 <link rel="stylesheet" href="/hjs_music4u.css">
+
+<header>
+<jsp:include page="header.jsp"></jsp:include>
+</header>
 <body>
  
     <!-- 타이틀 제목 -->
@@ -78,8 +82,7 @@
 				</tr>
 			</thead>
 			
-    	<tbody>
-    	
+    	<tbody>    	
     	<c:forEach var="trackInfo_2023" items="${trackInfos_2023}" begin="0" end="9" varStatus="loop">
 				
 				<tr>
@@ -114,10 +117,44 @@
 					<div class="caption3">
      				<p>${trackInfo_2023.like_count}</p>
 					</td>
-					<td><a href="#"><img src="img/hjs_play.png" class="logo1"></a></td>
-					<td><a href="#"><img src="img/hjs_put.png" class="logo2"></a></td>
-					<td><a href="#"><img src="img/hjs_down.png" class="logo3"></a></td>
-					<td><a href="#"><img src="img/hjs_muve.png" class="logo4"></a></td>
+					<td><a href="#"><img src="img/hjs_play.png" class="logo1" style="border: none; width: 20px; height: 20px;"></a></td>
+					<td>		<!-- 담기 버튼 -->
+		    <c:if test="${rank == null || rank < 1}">
+		        <a href="#" onclick="showLoginAlert()">
+		            <img src="/img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
+		        </a>
+		    </c:if>
+		    <c:if test="${rank != null && rank >= 1}">
+		    		<!--  onclick 이벤트 jsp 불러오는 함수에 맞게 꼭 변경해주세요! -->
+		        <a href="#" onclick="addTrack('${trackInfo_2023.track_id}')">
+		            <img src="/img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
+		        </a>
+		        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+			    <script>
+			        function showLoginAlert() {
+			            alert("로그인이 필요합니다.");
+			        }
+			        // ajax 방식으로 변경
+			        function addTrack(trackId) {
+			            $.ajax({
+			                url: '/addTrack',
+			                type: 'POST',
+			                data: { addTrack: trackId },
+			                success: function(response) {
+			                    alert("음악 담기 성공!"); // 음악 담기 성공시 알림창 띄우기
+			                    console.log(response);  
+			                },
+			                error: function(error) {
+			                    alert("이미 담겨 있는 음악입니다!"); // 이미 담겨 있는 음악일시 알림창 띄우기
+			                    console.log(error);  
+			                }
+			            });
+			        }
+			    </script>
+		    </c:if>
+		<!-- 여기까지가 담기 버튼입니다 -->	</td>
+					<td><a href="#"><img src="img/hjs_down.png" class="logo3" style="border: none; width: 20px; height: 20px;"></a></td>
+					<td><a href="#"><img src="img/hjs_muve.png" class="logo4" style="border: none; width: 20px; height: 20px;"></a></td>
 					
 				</tr>
     	 

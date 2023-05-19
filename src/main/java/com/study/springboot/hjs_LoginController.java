@@ -19,6 +19,46 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.study.springboot.Functions;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.HashMap;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Controller
 public class hjs_LoginController {
 	
@@ -118,9 +158,9 @@ public class hjs_LoginController {
     	model.addAttribute("trackInfos", trackInfos);
     	model.addAttribute("trackInfos_Like",trackInfos_like);
     	
-    	for(TrackInfo track : trackInfos_like)
+    	for(TrackInfo track : trackInfos)
     	{
-    		System.out.println("track : " +track.getTitle());
+    		System.out.println("track : " +track.getTrack_id());
     	}	
     
 		return "hjs_top100top100";
@@ -139,5 +179,18 @@ public class hjs_LoginController {
 		
 		return "hjs_music4u";
 	}
+	
+	@RequestMapping("/magazine")
+	   public String Mainpage2(Model model) throws IOException, ParseException {
+	      List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+	      List<TrackInfo> trackInfos_2023 = functions.getRandomTracksFrom2023(trackInfos);
+	      
+	      model.addAttribute("trackInfos", trackInfos);
+	      model.addAttribute("trackInfos_2023", trackInfos_2023);
+	      
+	      System.out.println("magazine");
+	      
+	      return "hjs_magazine";
+	   }
 
 }

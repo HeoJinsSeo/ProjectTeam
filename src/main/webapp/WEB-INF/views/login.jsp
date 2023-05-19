@@ -84,28 +84,9 @@
 				event.preventDefault();
 			} else {
 				checkLogin(id, password);
-				event.preventDefault();
 			}
 		})
 	})
-	
-	
-	
-	//document.querySelector("#submit").onclick = function(event){
-	//let id = document.querySelector('input[name="id"]').value.trim();
-	//let password = document.querySelector('input[name="password"]').value;
-	//	if ( id.length === 0 ) {
-	//		alert("아이디를 입력해주세요.");
-	//		event.preventDefault();
-	//	} else if ( password.length === 0) {
-	//		alert("비밀번호를 입력해주세요.");
-	//		event.preventDefault();
-	//	} else if(id !== user.getId()){
-	//		alert("아이디 혹은 비밀번호가 일치하지 않습니다.");
-	//		event.preventDefault();
-	//	}
-	//	
-	//}
 </script>
 <footer id="footer">
 	<div class="copyright"> ⓒ HMC HypeMusicStudio Corp. All rights reserved.</div>

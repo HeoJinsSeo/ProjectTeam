@@ -128,9 +128,10 @@
 	
 	.search_box {
 		width: 100%;
-		top: 0px;
-		margin-left: -20px;
-  		height: 40px;
+		top: 10px;
+		margin-top: 40px;
+		margin-left: -30px;
+  		height: 30px;
   		border-radius: 5px;
   		border: 2px solid grey;
   		padding: 5px 10px;
@@ -157,9 +158,10 @@
 	
 	.search-btn-img {
 		position: absolute;
-  		top: 2px;
-  		right: 22px;  		
+  		top: 43px;
+  		right: 15px;  		
 	}
+
 		
 	/*--------------------------------------------------------------------------------*/
 	/*-------------이 부분부터 body 쪽 css 입니다------------------------------------------*/

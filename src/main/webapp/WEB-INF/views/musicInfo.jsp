@@ -10,11 +10,15 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
+<header>
+<jsp:include page="header.jsp"></jsp:include>
+</header>
 <style>
-* {
+/*musicInfo_body {
 	margin: 0 auto;
 	padding: 0;
-}
+}*/
 
 div {
 	width: 100%;
@@ -26,6 +30,8 @@ ul, ol {
 }
 
 .d1 {
+	margin: 0 auto;
+	padding: 0;
 	height: 100%;
 	display: flex;
 	justify-content: center;
@@ -55,7 +61,7 @@ ul, ol {
 	height: inherit;
 }
 
-img {
+.musicInfo_album_image {
 	border-radius: 100px;
 	width: 30%;
 	height: 99%;
@@ -93,6 +99,7 @@ button:hover {
 	background-color: skyblue;
 }
 
+
 button:active {
 	background-color: #blue;
 }
@@ -105,7 +112,7 @@ button:active {
 			<br>
 			<br>
 			<div class="d3">
-				<img src="${album_image}" alt="대체_텍스트">
+				<img src="${album_image}" class = "musicInfo_album_image" alt="대체_텍스트">
 			</div>
 			<br>
 			<br>
@@ -118,9 +125,41 @@ button:active {
 						<button class="i">
 							<i class="material-icons">play_arrow</i>
 						</button>
-						<button class="i">
-							<i class="material-icons">add</i>
-						</button>
+			<!-- 담기 버튼 -->
+			    <c:if test="${rank == null || rank < 1}">
+			        <a href="#" onclick="showLoginAlert()">
+			            <img src="/img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
+			        </a>
+			    </c:if>
+			    <c:if test="${rank != null && rank >= 1}">
+			    		<!--  onclick 이벤트 jsp 불러오는 함수에 맞게 꼭 변경해주세요! -->
+			        <a href="#" onclick="addTrack('${trackInfo.track_id}')">
+			            <img src="/img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
+			        </a>
+			        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+				    <script>
+				        function showLoginAlert() {
+				            alert("로그인이 필요합니다.");
+				        }
+				        // ajax 방식으로 변경
+				        function addTrack(trackId) {
+				            $.ajax({
+				                url: '/addTrack',
+				                type: 'POST',
+				                data: { addTrack: trackId },
+				                success: function(response) {
+				                    alert("음악 담기 성공!"); // 음악 담기 성공시 알림창 띄우기
+				                    console.log(response);  
+				                },
+				                error: function(error) {
+				                    alert("이미 담겨 있는 음악입니다!"); // 이미 담겨 있는 음악일시 알림창 띄우기
+				                    console.log(error);  
+				                }
+				            });
+				        }
+				    </script>
+			    </c:if>
+			<!-- 여기까지가 담기 버튼입니다 -->
 					</div>
 				</div>
 				<br>

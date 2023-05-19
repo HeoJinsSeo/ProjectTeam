@@ -6,10 +6,10 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 </head>
-<header>
 <link rel="stylesheet" href="/hjs_newalbum.css">
-
-
+<header>
+<jsp:include page="header.jsp"></jsp:include>
+</header>
 <body>
 <div class="wrap_btn">
 		<div class="content_box" align-item="left">

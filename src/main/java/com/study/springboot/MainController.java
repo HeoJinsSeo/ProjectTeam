@@ -26,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -274,40 +275,41 @@ public class MainController
         return "mymusic_test";
     }
     
-    // 음악 담기 기능
+    // 음악 담기 컨트롤러
+    // 자꾸 페이지 들락날락 거리는게 싫어서 ajax로 바꾸고 오류메세지 수정했습니다
     @PostMapping("addTrack")
-    public String addtrack(HttpServletRequest req,
-			  Model model,
-			  @RequestParam("addTrack") Integer add_track
-			  ) throws IOException, ParseException {
-    	
-    	HttpSession session = req.getSession();
-    	
-    	Integer rank = (Integer) session.getAttribute("rank");
-    	
+    @ResponseBody
+    public ResponseEntity<String> addTrack(HttpServletRequest req,
+                                           Model model,
+                                           @RequestParam("addTrack") Integer addTrack) throws IOException, ParseException {
+
+        HttpSession session = req.getSession();
+
+        Integer rank = (Integer) session.getAttribute("rank");
+
         // rank 값이 null이거나 1보다 작을 경우 음악 담기가 제한됩니다.
         if (rank == null || rank < 1) {
             System.out.println("방문객이면 음악 담기 제한");
-            return "redirect:/mymusic_test";
+            return ResponseEntity.badRequest().body("방문객이면 음악 담기 제한");
         }
-    	
-    	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
-    	List<Integer> addedTracks = (List<Integer>) session.getAttribute("addedTracks");
-    	
+
+        List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
+        List<Integer> addedTracks = (List<Integer>) session.getAttribute("addedTracks");
+
         if (addedTracks == null) {
             addedTracks = new ArrayList<>();
         }
 
-        if (!addedTracks.contains(add_track)) {
-            addedTracks.add(add_track);
+        if (!addedTracks.contains(addTrack)) {
+            addedTracks.add(addTrack);
             session.setAttribute("addedTracks", addedTracks);
             System.out.println("음악 담기 성공");
-            System.out.println("담은 곡: " + add_track);
+            System.out.println("담은 곡: " + addTrack);
+            return ResponseEntity.ok().body("음악 담기 성공");
         } else {
             System.out.println("이미 담긴 곡입니다");
-        }     
-    	
-    	return "redirect:/mymusic_test";
+            return ResponseEntity.badRequest().body("이미 담긴 곡입니다");
+        }
     }
     
     // 음악 빼기 컨트롤러
@@ -367,7 +369,7 @@ public class MainController
         	System.out.println("저장한 트랙 넘버 : " + track);
         }    
     	
-        return "mymusic";
+        return "/mymusic";
     }
     
     // 내정보 페이지 진입용 컨트롤러
@@ -458,40 +460,41 @@ public class MainController
     	return jsonResult;
     }
     
+    // 검색 기능 컨트롤러
     @GetMapping("/search/{keyword}")
-    public String search(@PathVariable("keyword")String keyword,
-    					Model model,
-    					HttpServletRequest request) {
-    	
-    	// session
-    	HttpSession session = request.getSession();
-    	List list = (List) session.getAttribute("trackInfoList");
-    	
-    	String lowerCaseKeyword = keyword.toLowerCase();
-    	
-    	// Get track data list from Excel file.
-    	List<TrackInfo> trackInfoList = null;
-    	try {
-    		trackInfoList = functions.getTrackInfoFromXlsx();
-    	} catch(IOException|ParseException e) {
-    		e.printStackTrace();
-    	}
-    	// Filter track data according to search keyword
-    	List<TrackInfo> filteredList = trackInfoList.stream()
-    		.filter(trackInfo -> trackInfo.getAlbum_image().toLowerCase().contains(lowerCaseKeyword)
-    				|| trackInfo.getTitle().toLowerCase().contains(lowerCaseKeyword)
-    				|| trackInfo.getArtist().toLowerCase().contains(lowerCaseKeyword)
-    				|| trackInfo.getAlbum().toLowerCase().contains(lowerCaseKeyword)
-    				|| trackInfo.getRelease_date().toLowerCase().contains(lowerCaseKeyword)
-    				|| String.valueOf(trackInfo.getLike_count()).toLowerCase().contains(lowerCaseKeyword)
-    				|| trackInfo.getNews1().toLowerCase().contains(lowerCaseKeyword)
-    				|| trackInfo.getNews2().toLowerCase().contains(lowerCaseKeyword)
-    				|| trackInfo.getNews3().toLowerCase().contains(lowerCaseKeyword))
-    		.collect(Collectors.toList());
-    	// searchResults를 뷰로 전달
-    	model.addAttribute("searchResults", filteredList);
-    	// search.jsp 뷰를 반환
-    	return "search";
+    public String search(@PathVariable("keyword") String keyword, Model model, HttpServletRequest request) {
+        // session
+        HttpSession session = request.getSession();
+        List<TrackInfo> list = (List<TrackInfo>) session.getAttribute("trackInfoList");
+
+        String lowerCaseKeyword = keyword.toLowerCase();
+
+        // Get track data list from Excel file.
+        List<TrackInfo> trackInfoList = null;
+        try {
+            trackInfoList = functions.getTrackInfoFromXlsx();
+        } catch(IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Filter track data according to search keyword
+        List<TrackInfo> filteredList = trackInfoList.stream()
+                .filter(trackInfo ->
+                        trackInfo.getAlbum_image().toLowerCase().contains(lowerCaseKeyword)
+                                || trackInfo.getTitle().toLowerCase().contains(lowerCaseKeyword)
+                                || String.valueOf(trackInfo.getTrack_id()).toLowerCase().contains(lowerCaseKeyword)
+                                || trackInfo.getArtist().toLowerCase().contains(lowerCaseKeyword)
+                                || trackInfo.getAlbum().toLowerCase().contains(lowerCaseKeyword)
+                                || trackInfo.getRelease_date().toLowerCase().contains(lowerCaseKeyword)
+                                || String.valueOf(trackInfo.getLike_count()).toLowerCase().contains(lowerCaseKeyword))
+                .collect(Collectors.toList());
+
+        // searchResults를 뷰로 전달
+        model.addAttribute("searchResults", filteredList);
+
+        // search.jsp 뷰를 반환
+        return "search";
     }
+
 }
 

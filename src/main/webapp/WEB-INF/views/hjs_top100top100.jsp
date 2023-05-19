@@ -6,7 +6,8 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Collections" %>
 <%@ page import="com.study.springboot.MainController" %>
-<%@ page import="com.study.springboot.TrackInfo" %>    
+<%@ page import="com.study.springboot.TrackInfo" %>
+   
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,11 @@
 <title>top100 top100</title>
 </head>
 <link rel="stylesheet" href="/hjs_top100top100.css">
+<link rel="stylesheet" href="/footer.css?after">
+
+<header>
+<jsp:include page="header.jsp"></jsp:include>
+</header>
 
 <body>
 <!-- 타이틀 로고 -->
@@ -92,16 +98,89 @@
 					<div class="caption3">
      				<p>${trackInfo_like.like_count}</p>
 					</td>
-					<td><a href="#"><img src="img/hjs_play.png" class="logo1"></a></td>
-					<td><a href="#"><img src="img/hjs_put.png" class="logo2"></a></td>
-					<td><a href="#"><img src="img/hjs_down.png" class="logo3"></a></td>
-					<td><a href="#"><img src="img/hjs_muve.png" class="logo4"></a></td>					
+					<td><a href="#"><img src="img/hjs_play.png" class="logo1" style="border: none; width: 20px; height: 20px;"></a></td>
+					<td>
+					<!-- 담기 버튼 -->
+					    <c:if test="${rank == null || rank < 1}">
+					        <a href="#" onclick="showLoginAlert()">
+					            <img src="img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
+					        </a>
+					    </c:if>
+					    <c:if test="${rank != null && rank >= 1}">
+					    		<!--  onclick 이벤트 jsp 불러오는 함수에 맞게 꼭 변경해주세요! -->
+					        <a href="#" onclick="addTrack('${trackInfo.track_id}')">
+					            <img src="img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
+					        </a>
+							<script>
+							    function showLoginAlert() {
+							        alert("로그인이 필요합니다.");
+							    }			    
+					
+							    function addTrack(trackId) {
+							        let form = document.createElement('form');
+							        form.action = '/addTrack';
+							        form.method = 'post';
+					
+							        let input = document.createElement('input');
+							        input.type = 'hidden';
+							        input.name = 'addTrack';
+							        input.value = trackId;
+					
+							        form.appendChild(input);
+							        document.body.appendChild(form);
+					
+							        form.submit();
+							    }
+							</script>
+					    </c:if>
+					<!-- 여기까지가 담기 버튼입니다 -->		
+					</td>
+					<td><a href="#"><img src="img/hjs_down.png" class="logo3" style="border: none; width: 20px; height: 20px;"></a></td>
+					<td><a href="#"><img src="img/hjs_muve.png" class="logo4" style="border: none; width: 20px; height: 20px;"></a></td>					
 				</tr>    	 
     	 </c:forEach>    	
 				</tbody>
 		</table>   
 </div>
 </body>
+
+<!--  선아님 Footer -->
+<footer>
+    <hr>
+    <div>
+        <ui class="footernav">
+            <li><a href="#" class ="footer_text">이용약관</a></li>
+            <li><a href="#" class ="footer_text">위치기반서비스 이용약관</a></li>
+            <li><a href="#" class ="footer_text">개인정보처리방침</a></li>
+            <li><a href="#" class ="footer_text">제휴/프로모션</a></li>
+            <li><a href="#" class ="footer_text">이메일주소무단</a></li>
+            <li><a href="#" class ="footer_text">파트너센터</a></li>
+            <li><a href="#" class ="footer_text">문의사항</a></li>
+        </ui>
+    </div>
+
+    <hr id="hr">
+
+    <div class="info">
+        <p>(주)하입봇엔터테인먼트</p>
+        <p>영등포구 휴먼교육</p>
+        <p>sksksksksk</p>
+        <p>sdkgdnskldgnlds</p>
+        <p>dkfsjkldf : dskgjlskglk</p>
+        <p>dkfsjkldf : dskgjlskglk</p>
+        <p>dkfsjkldf : dskgjlskglk</p>
+    </div>
+
+    <div class="info2">
+        <p>(주)하입봇엔터테인먼트</p>
+        <p>영등포구 휴먼교육</p>
+        <p>sksksksksk</p>
+        <p>sdkgdnskldgnlds</p>
+        <p>dkfsjkldf : dskgjlskglk</p>
+        <p>dkfsjkldf : dskgjlskglk</p>
+        <p>dkfsjkldf : dskgjlskglk</p>
+    </div>    
+</footer>
 </html>
     			
     			
