@@ -237,15 +237,15 @@ th, td{
                             <span class="checkmark"></span></td>					
 					<td>
 						${loop.index + 1}
-					</td>
-					
-					<td><a href="/musicInfo?track_id=${searchResult.track_id }" id="info">info</a></td>
+					</td>					
+					<!--  곡정보 이미지 추가 -->
+					<td><a href="/musicInfo?track_id=${searchResult.track_id }" id="info"><img src = "/img/music_info_icon2.jpg" style="border: none; width: 25px; height: 30px;"></a></td>
 					<td>
 						 <div class="track">
           				 <img src="${searchResult.album_image}">
         				 	<div class="caption">
-                			<a class="caption-a" href="/musicInfo?track_id=${searchResult.track_id }">${searchResult.title}</a>
-                			<a class="caption-a" href="/musicInfo?track_id=${searchResult.track_id }">${searchResult.artist}</a>
+                			<a class="caption-a" >${searchResult.title}</a>
+                			<a class="caption-a" >${searchResult.artist}</a>
             				</div>
         				 </div>
 					</td>
@@ -346,4 +346,7 @@ th, td{
 </script>
 
 </body>
+<footer>
+<jsp:include page="footer.jsp"></jsp:include>   
+</footer>
 </html>

@@ -417,6 +417,7 @@ public class MainController
         model.addAttribute("style", musicInfo.getStyle());
         model.addAttribute("album_image", musicInfo.getAlbum_image());
         model.addAttribute("lyrics", musicInfo.getLyrics());
+        model.addAttribute("track_id", musicInfo.getTrack_id());
 
         // musicInfo 페이지로 이동
         return "musicInfo";

@@ -15,8 +15,22 @@
 <title>top100 top100</title>
 </head>
 <link rel="stylesheet" href="/hjs_top100top100.css">
-<link rel="stylesheet" href="/footer.css?after">
-
+<style>
+.suffle_listen:hover,
+.all_listen:hover,
+.listen:hover,
+.put:hover,
+.down:hover,
+.FLAC:hover,
+.present:hover
+ {
+    background-color:#04aa6d;
+    color: white;
+    cursor: pointer;
+    background-size: 50%; /* Show only half of the background color */
+    background-position: right; /* Align the background to the right */
+}	
+</style>
 <header>
 <jsp:include page="header.jsp"></jsp:include>
 </header>
@@ -71,12 +85,12 @@
                             <span class="checkmark"></span></td>					
 					<td>
 						${loop.index + 1}
-					</td>
-					
-					<td>ㅡ</td>
+					</td>					
+					<!--  곡정보 이미지 추가 -->
+					<td><a href="/musicInfo?track_id=${searchResult.track_id }" id="info"><img src = "/img/music_info_icon2.jpg" style="border: none; width: 25px; height: 30px;"></a></td>
 					<td>
 						 <div class="track">
-          				 <img src="${trackInfo_like.album_image}">
+          				 <a href="/musicInfo?track_id=${trackInfo_like.track_id }"><img src="${trackInfo_like.album_image}"></a>
         				 	<div class="caption">
                 			<p>${trackInfo_like.title}</p>
                 			<p>${trackInfo_like.artist}</p>
@@ -103,37 +117,38 @@
 					<!-- 담기 버튼 -->
 					    <c:if test="${rank == null || rank < 1}">
 					        <a href="#" onclick="showLoginAlert()">
-					            <img src="img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
+					            <img src="/img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
 					        </a>
 					    </c:if>
 					    <c:if test="${rank != null && rank >= 1}">
 					    		<!--  onclick 이벤트 jsp 불러오는 함수에 맞게 꼭 변경해주세요! -->
-					        <a href="#" onclick="addTrack('${trackInfo.track_id}')">
-					            <img src="img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
+					        <a href="#" onclick="addTrack('${trackInfo_like.track_id}')">
+					            <img src="/img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
 					        </a>
-							<script>
-							    function showLoginAlert() {
-							        alert("로그인이 필요합니다.");
-							    }			    
-					
-							    function addTrack(trackId) {
-							        let form = document.createElement('form');
-							        form.action = '/addTrack';
-							        form.method = 'post';
-					
-							        let input = document.createElement('input');
-							        input.type = 'hidden';
-							        input.name = 'addTrack';
-							        input.value = trackId;
-					
-							        form.appendChild(input);
-							        document.body.appendChild(form);
-					
-							        form.submit();
-							    }
-							</script>
+					        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+						    <script>
+						        function showLoginAlert() {
+						            alert("로그인이 필요합니다.");
+						        }
+						        // ajax 방식으로 변경
+						        function addTrack(trackId) {
+						            $.ajax({
+						                url: '/addTrack',
+						                type: 'POST',
+						                data: { addTrack: trackId },
+						                success: function(response) {
+						                    alert("음악 담기 성공!"); // 음악 담기 성공시 알림창 띄우기
+						                    console.log(response);  
+						                },
+						                error: function(error) {
+						                    alert("이미 담겨 있는 음악입니다!"); // 이미 담겨 있는 음악일시 알림창 띄우기
+						                    console.log(error);  
+						                }
+						            });
+						        }
+						    </script>
 					    </c:if>
-					<!-- 여기까지가 담기 버튼입니다 -->		
+					<!-- 여기까지가 담기 버튼입니다 -->	
 					</td>
 					<td><a href="#"><img src="img/hjs_down.png" class="logo3" style="border: none; width: 20px; height: 20px;"></a></td>
 					<td><a href="#"><img src="img/hjs_muve.png" class="logo4" style="border: none; width: 20px; height: 20px;"></a></td>					
@@ -143,43 +158,8 @@
 		</table>   
 </div>
 </body>
-
-<!--  선아님 Footer -->
 <footer>
-    <hr>
-    <div>
-        <ui class="footernav">
-            <li><a href="#" class ="footer_text">이용약관</a></li>
-            <li><a href="#" class ="footer_text">위치기반서비스 이용약관</a></li>
-            <li><a href="#" class ="footer_text">개인정보처리방침</a></li>
-            <li><a href="#" class ="footer_text">제휴/프로모션</a></li>
-            <li><a href="#" class ="footer_text">이메일주소무단</a></li>
-            <li><a href="#" class ="footer_text">파트너센터</a></li>
-            <li><a href="#" class ="footer_text">문의사항</a></li>
-        </ui>
-    </div>
-
-    <hr id="hr">
-
-    <div class="info">
-        <p>(주)하입봇엔터테인먼트</p>
-        <p>영등포구 휴먼교육</p>
-        <p>sksksksksk</p>
-        <p>sdkgdnskldgnlds</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-    </div>
-
-    <div class="info2">
-        <p>(주)하입봇엔터테인먼트</p>
-        <p>영등포구 휴먼교육</p>
-        <p>sksksksksk</p>
-        <p>sdkgdnskldgnlds</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-        <p>dkfsjkldf : dskgjlskglk</p>
-    </div>    
+<jsp:include page="footer.jsp"></jsp:include>   
 </footer>
 </html>
     			

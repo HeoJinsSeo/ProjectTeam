@@ -92,6 +92,9 @@
 					<td>
 						${loop.index + 1}
 					</td>
+					<!--  곡정보 이미지 추가 -->
+					<td><a href="/musicInfo?track_id=${trackInfo_2023.track_id}" id="info"><img src = "/img/music_info_icon2.jpg" style="border: none; width: 25px; height: 30px;"></a></td>
+			
 					
 					<td>
 						 <div class="track">
@@ -168,4 +171,7 @@
    
    
 </body>
+<footer>
+<jsp:include page="footer.jsp"></jsp:include>   
+</footer>
 </html>

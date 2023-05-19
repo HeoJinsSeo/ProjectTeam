@@ -18,7 +18,7 @@
 <div id="header">
 	<div class = head_top>
 		<div class="head_top_left">
-			<a title="이용권구매"><button class="buy_ticket_btn">이용권구매</button></a>
+			<a title="이용권구매" href = "/hjs_ad"><button class="buy_ticket_btn">이용권구매</button></a>
 		</div>
 		<div class="head_top_right">
 			<a title="환영코드"><span class="user_states">

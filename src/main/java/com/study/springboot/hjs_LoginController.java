@@ -130,9 +130,9 @@ public class hjs_LoginController {
 		
 	}
 	
-	@GetMapping("/ad")
+	@GetMapping("/hjs_ad")
 	public String closePage() {
-		return "ad";
+		return "hjs_ad";
 	}
 	
 	@RequestMapping("/musicchart")
@@ -158,10 +158,10 @@ public class hjs_LoginController {
     	model.addAttribute("trackInfos", trackInfos);
     	model.addAttribute("trackInfos_Like",trackInfos_like);
     	
-    	for(TrackInfo track : trackInfos)
+    	/*for(TrackInfo track : trackInfos)
     	{
     		System.out.println("track : " +track.getTrack_id());
-    	}	
+    	}*/
     
 		return "hjs_top100top100";
 	}

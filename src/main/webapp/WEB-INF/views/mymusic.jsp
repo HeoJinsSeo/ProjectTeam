@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<link rel="stylesheet" href="/footer.css">
 <link rel="stylesheet" href="/hjs_top100top100.css">
 <header>
 <jsp:include page="header.jsp"></jsp:include>
@@ -54,8 +53,8 @@
 					<td>
 						${loop.index + 1}
 					</td>
-					
-					<td>ㅡ</td>
+					<!--  곡정보 이미지 추가 -->
+					<td><a href="/musicInfo?track_id=${selectedTrack.track_id}" id="info"><img src = "/img/music_info_icon2.jpg" style="border: none; width: 25px; height: 30px;"></a></td>
 					<td>
 						 <div class="track">
           				 <img src="${selectedTrack.album_image}">
@@ -92,4 +91,7 @@
 </div>
 
 </body>
+<footer>
+<jsp:include page="footer.jsp"></jsp:include>   
+</footer>
 </html>

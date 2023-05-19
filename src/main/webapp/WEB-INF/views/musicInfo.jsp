@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>musicInfo</title>
+<title>${title}&nbsp:::HYPEMUSIC&nbsp음악정보</title>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -15,114 +15,45 @@
 <jsp:include page="header.jsp"></jsp:include>
 </header>
 <style>
-/*musicInfo_body {
-	margin: 0 auto;
-	padding: 0;
-}*/
-
-div {
-	width: 100%;
+#album-info{
+	position: relative;
+	min-height: 240px;
+	min-width: 800px;
+	margin-bottom: 30px;
+}
+#album-image {
+	float: left;
+	padding-left: 14%;
+	padding-top : 65px;
+	margin-right: 50px;
 }
 
-ul, ol {
-	display: inline-block;
-	list-style: none;
+#lyrics-wrapper {
+	width: 70%;
+	margin: auto;
 }
 
-.d1 {
-	margin: 0 auto;
-	padding: 0;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.d2 {
-	display: flex;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	display: block;
-	width: 90%;
-	height: 45%;
-}
-
-.d3 {
-	display: flex;
-	text-align: center;
-	overflow: auto;
-	height: 180px;
-}
-
-.d4 {
-	width: 80%;
-	overflow: auto;
-	height: inherit;
-}
-
-.musicInfo_album_image {
-	border-radius: 100px;
-	width: 30%;
-	height: 99%;
-	object-fit: cover;
-}
-
-.d5 {
-	flex-direction: column;
-}
-
-.d5 h3 {
-	
-}
-
-.d6 {
-	width: 80%;
-	height: auto;
-	white-space: pre-wrap;
-}
-
-.i {
-	border-radius: 100px;
-	width: 80%;
-	height: 50%;
-}
-
-.d7 {
-	width: 80px;
-	display: flex;
-	justify-content: space-between;
-	display: flex;
-}
-
-button:hover {
-	background-color: skyblue;
-}
-
-
-button:active {
-	background-color: #blue;
+pre {
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 12pt;
 }
 </style>
 
 <body>
-	<div class="d1">
-		<div>
-			<br>
-			<br>
-			<br>
-			<div class="d3">
-				<img src="${album_image}" class = "musicInfo_album_image" alt="대체_텍스트">
+	<div id="wrapper">
+		<div id="album-info">
+			<div id="album-image">
+				<img src="${album_image}" width="180px" height="180px" alt="album_img">
 			</div>
 			<br>
 			<br>
 			<div>
-				<div class="d2 playbox" id="">
-					<h3>"${artist}"의"${style}"</h3>
-					<br>
-					<br>
-					<div class="d7">
-						<button class="i">
+				<div>
+					<h2 id="title">${title}</h2>
+					<h3 id="artist">${artist}</h3>
+					<h4 id="genre">${genre}&nbsp&nbsp&nbsp${style}</h4>
+					<div>
+						<button class="play">
 							<i class="material-icons">play_arrow</i>
 						</button>
 			<!-- 담기 버튼 -->
@@ -133,7 +64,7 @@ button:active {
 			    </c:if>
 			    <c:if test="${rank != null && rank >= 1}">
 			    		<!--  onclick 이벤트 jsp 불러오는 함수에 맞게 꼭 변경해주세요! -->
-			        <a href="#" onclick="addTrack('${trackInfo.track_id}')">
+			        <a href="#" onclick="addTrack('${track_id}')">
 			            <img src="/img/hjs_put.png" alt="담기" style="border: none; width: 20px; height: 20px;">
 			        </a>
 			        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -163,17 +94,20 @@ button:active {
 					</div>
 				</div>
 				<br>
-				<div class="d2 d5" style="width: 50%;">
-					<h2>${title}</h2>
-					<br>
-					<div class="d6">${lyrics}</div>
-				</div>
 			</div>
+			</div>
+		<div id="lyrics-wrapper"> 
+			<div>
+				<hr>
+				<h2 id="lyrics-head">Lyrics</h2>
+				<hr>
+			</div>
+			<br>
+			<div id="lyrics-container"><pre>${lyrics}</pre></div>
+		</div>	
 		</div>
-	</div>
+
+
 </body>
-<script>
-	
-</script>
 
 </html>
