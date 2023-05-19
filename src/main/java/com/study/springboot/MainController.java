@@ -54,7 +54,7 @@ public class MainController
 {
 	// 함수 호출
 	Functions functions = new Functions();
-	// 메인페이지 
+	// 메인페이지 최신음악 처음에 최신으로 초기화
 	String Mainpage_genre_state = "recent";
   
     @Autowired
@@ -64,14 +64,6 @@ public class MainController
     @GetMapping("/go_Mainpage")
     public String go_mainpage() {
         return "redirect:/Mainpage"; // 메인페이지로 리다이렉트
-    }
-    
-    // 트랙정보 출력 테스트 페이지
-    @RequestMapping("/Ttest")
-    public String getTtest(Model model) throws IOException, ParseException {
-    	List<TrackInfo> trackInfos = functions.getTrackInfoFromXlsx();
-    	model.addAttribute("trackInfos", trackInfos);
-        return "Ttest";
     }
     
     // 회원가입 페이지 진입용 컨트롤러
@@ -142,11 +134,10 @@ public class MainController
     @PostMapping("/login")
     public String Login(@RequestParam("id") String id,
     					@RequestParam("password") String password,
-    					HttpServletRequest req) throws IOException {
+    					HttpServletRequest req) throws IOException, ParseException {
     	// 세션 선언
     	HttpSession session = req.getSession();
     	
-        System.out.println("로그인 처리");		// 동작 확인용
         List<User> userList = functions.getUserListFromCSV();		// csv 에서 유저정보 읽어옴
                 for (User user : userList) {
             if (user.getId().equals(id) && user.getPassword().equals(password)) {	// 만약 id, password가 일치한다면
@@ -157,9 +148,11 @@ public class MainController
             	session.setAttribute("age", user.getAge());
             	session.setAttribute("preference", user.getPreference());
             	session.setAttribute("rank", user.getRank());
+            	System.out.println("로그인 성공");		// 동작 확인용
             	
                 return "redirect:/Mainpage?success=true";	// 로그인 잘 됫는지 확인용으로 success=true 넣었습니다
             }
+            System.out.println("로그인 실패");
         }
         return "redirect:/login?error=true";		// 실패시 다시 로그인 페이지
     }
@@ -203,8 +196,6 @@ public class MainController
         System.out.println("preference : " + preference);
         System.out.println("rank : " + rank);
         
-
-                    
         return "Mainpage";
     }
     
@@ -373,7 +364,7 @@ public class MainController
     }
     
     // 내정보 페이지 진입용 컨트롤러
-    @GetMapping("/myInfo")
+    @GetMapping("/hjs_myInfo")
     public String myinfo(HttpServletRequest req) {
     	
     	HttpSession session = req.getSession();
@@ -389,7 +380,7 @@ public class MainController
         System.out.println("preference : " + preference);
         System.out.println("rank : " + rank);
     	
-        return "myInfo";
+        return "hjs_myInfo";
     }
 
     @RequestMapping("/musicInfo")
