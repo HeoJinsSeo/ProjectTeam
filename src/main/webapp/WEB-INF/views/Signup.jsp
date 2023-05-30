@@ -19,6 +19,13 @@
 		<div id="inputGroup">
 			<div id="input">
 				<div class="label-wrapper">
+					<label for="name" id="lb">이름</label><br>
+				</div>
+				<input type="text" name="name"><br>
+				<div class="notice">이름은 영어만 입력 가능합니다</div>
+			</div>
+			<div id="input">
+				<div class="label-wrapper">
 					<label for="id" id="lb">아이디</label><br>
 				</div>
 				<input type="text" name="id"><br>
@@ -74,6 +81,8 @@
 <script>
 	
 	document.querySelector("#submit").onclick = function(){
+	let name = document.querySelector('input[name="name"]').value.trim();
+	let nameRegex = /^[A-Za-z]+$/;
 	let id = document.querySelector('input[name="id"]').value.trim();
 	// 영문으로 시작하고 숫자를 포함하는 5자 이상인 정규식
 	let idRegex = /^[a-zA-Z][a-zA-Z0-9]{5,10}$/;
@@ -84,7 +93,13 @@
 	let age = document.querySelector('input[name="age"]').value.trim();
 	// 0부터 120까지 입력받는 정규식
 	let ageRegex = /^([0-9]|[0-9][0-9]|1[01][0-9]|120)$/;
-		if ( id.length === 0 ) {
+		if ( name.length === 0 ) {
+			alert("이름을 입력해주세요.");
+			event.preventDefault();
+		} else if (!name.match(nameRegex)){
+			alert("이름은 영문만 입력 가능합니다.");
+			event.preventDefault();
+		} else if ( id.length === 0 ) {
 			alert("아이디를 입력해주세요.");
 			event.preventDefault();
 		} else if (!id.match(idRegex)){

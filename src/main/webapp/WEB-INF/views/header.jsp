@@ -33,7 +33,7 @@
 		</div>
 	</div>
 	<div class="head_middle">
-        <a href="Mainpage" title="Go_Mainppge">
+        <a href="/Mainpage" title="Go_Mainppge">
         	<img src="/img/logo2.jpg" alt="로고" class="logo">
         </a>
         <div class="search-input-container">

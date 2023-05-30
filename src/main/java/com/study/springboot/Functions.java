@@ -112,8 +112,9 @@ public class Functions
 	        int age = Integer.parseInt(fields[2]); // 세 번째 나이
 	        String preference = fields[3]; // 네 번째 취향
 	        int rank = Integer.parseInt(fields[4]); // 다섯 번째 등급
-
-	        User user = new User(id, password, age, preference, rank); // user 객체에 담기
+	        String name = fields[5]; // 이름
+	        
+	        User user = new User(id, password, age, preference, rank, name); // user 객체에 담기
 
 	        // 추가
 	        userList.add(user);
@@ -150,7 +151,7 @@ public class Functions
     	List<TrackInfo> getTrackInfoFromXlsx() throws IOException, ParseException {
     	// 엑셀 파일을 읽어들일 FileInputStream 객체 생성
     	// 경로는 사용자 환경에 맞게 세팅해주셔야합니다
-    	FileInputStream fis = new FileInputStream(new File("C:\\Users\\h\\Desktop\\ProjectTeam\\src\\main\\resources\\metadata\\music_all_230510(1).xlsx"));
+    	FileInputStream fis = new FileInputStream(new File("C:\\Users\\User\\Desktop\\ProjectTeam\\src\\main\\resources\\metadata\\music_all_230510(1).xlsx"));
     	
     	// XSSFWorkbook 객체를 생성하여 엑셀 파일을 읽음
     	XSSFWorkbook workbook = new XSSFWorkbook(fis);

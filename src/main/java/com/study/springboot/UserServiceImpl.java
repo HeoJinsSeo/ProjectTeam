@@ -20,10 +20,10 @@ public class UserServiceImpl implements UserService {
 	// save 함수(회원가입 받기용)
     @Override
     public void save(User user) {
-        try (RandomAccessFile file = new RandomAccessFile("C:\\Users\\h\\Desktop\\ProjectTeam\\src\\main\\resources\\metadata\\user.csv", "rw")) {
+        try (RandomAccessFile file = new RandomAccessFile("C:\\Users\\User\\Desktop\\ProjectTeam\\src\\main\\resources\\metadata\\user.csv", "rw")) {
             long fileLength = file.length();
             file.seek(fileLength); // 파일 끝으로 이동 앞에 내용 덮어쓰기 방지용
-            file.writeBytes(user.getId() + "," + user.getPassword() + "," + user.getAge() + "," + user.getPreference() + "," + user.getRank() + "\n");
+            file.writeBytes(user.getId() + "," + user.getPassword() + "," + user.getAge() + "," + user.getPreference() + "," + user.getRank() + "," + user.getName() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

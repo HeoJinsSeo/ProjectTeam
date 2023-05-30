@@ -8,15 +8,16 @@ public class User
     private int age;			// 나이
     private String preference;	// 취향
     private int rank;			// 등급
-
+    private String name;
     public User() {}
     
-    public User(String id, String password, int age, String preference, int rank) {
+    public User(String id, String password, int age, String preference, int rank, String name) {
         this.id = id;
         this.password = password;
         this.age = age;
         this.preference = preference;
         this.rank = rank;
+        this.name = name;
     }
     
     public String getId() {
@@ -59,5 +60,15 @@ public class User
 	public void setRank(int rank)
 	{
 		this.rank = rank;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 }

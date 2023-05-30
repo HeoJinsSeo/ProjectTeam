@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${keyword }에 대한 검색결과</title>
+<title>${keyword}에 대한 검색결과</title>
 <link rel="stylesheet" href="/Mainpage.css?after">
 </head>
 <header>
@@ -251,8 +251,8 @@ th, td{
 					</td>
 					<td>
 					<div class="caption1">
-				      <a class="caption1-a" href="#"><p>${searchResult.title}</p></a>
-				      <a class="caption1-a" href="#"><p>${searchResult.artist}</p></a>
+				      <a class="caption1-a" href="/musicInfo?track_id=${searchResult.track_id }"><p>${searchResult.title}</p></a>
+				      <a class="caption1-a" href="/musicInfo?track_id=${searchResult.track_id }"><p>${searchResult.artist}</p></a>
 				    </div>
 					</td>
 					<td>
@@ -307,43 +307,7 @@ th, td{
 				</tbody>
 		</table>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-	
-	<!-- 데이터 불러오기 -->
-	$(document).ready(function(){
-		// 결과 페이지가 로딩될 때, 아래 코드가 실행됩니다.
-	    let trackInfos = [];
-	    $.ajax({
-			url: "/infos", // AJAX 요청을 보낼 URL
-			method: "GET", // 요청 방식
-			dataType: "json", // 데이터 타입
-			success: function(jsonStr){
-				// AJAX 요청이 성공할 경우 실행되는 함수
-				trackInfos = JSON.parse(jsonStr);
-				let searchResults = [];
-	            let searchParams = new URLSearchParams(document.location.search.substring(1));
-	            let keyword = searchParams.get("keyword").toLowerCase();
-	            $.each(trackInfos, function(index, item){
-	            	// 검색어로 필터링된 리스트를 생성
-	                if(item.album_image.toLowerCase().indexOf(keyword) > -1
-	                   || item.title.toLowerCase().indexOf(keyword) > -1
-	                   || item.track_id.toLowerCase().indexOf(keyword) > -1
-	                   || item.artist.toLowerCase().indexOf(keyword) > -1 
-	                   || item.album.toLowerCase().indexOf(keyword) > -1
-	                   || item.release_date.toLowerCase().indexOf(keyword) > -1
-	                   || item.like_count.toLowerCase().indexOf(keyword) > -1
-	                   || item.news1.toLowerCase().indexOf(keyword) > -1
-	                   || item.news2.toLowerCase().indexOf(keyword) > -1
-	                   || item.news3.toLowerCase().indexOf(keyword) > -1){
-	                    searchResults.push(item);
-	                }
-	            });
-			}
-		});
-	});
 
-</script>
 
 </body>
 <footer>

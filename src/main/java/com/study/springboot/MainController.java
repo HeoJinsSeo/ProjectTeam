@@ -120,10 +120,11 @@ public class MainController
 	 public String Signup(@RequestParam("id") String id,
 	 @RequestParam("password") String password,
 	 @RequestParam("age") int age,
-	 @RequestParam("preference") String preference
+	 @RequestParam("preference") String preference,
+	 @RequestParam("name") String name
 	 ) {	
 		 System.out.println("회원가입 처리 완료"); // 동작 확인용 메세지
-		 User user = new User(id, password, age, preference, 1); // rank 는 따로 입력사항이 없기 때문에 기본값으로 1을 넣었습니다
+		 User user = new User(id, password, age, preference, 1, name); // rank 는 따로 입력사항이 없기 때문에 기본값으로 1을 넣었습니다
 		 userService.save(user);
 		
 		 // 세이브 성공시 메인페이지 이동
@@ -148,6 +149,7 @@ public class MainController
             	session.setAttribute("age", user.getAge());
             	session.setAttribute("preference", user.getPreference());
             	session.setAttribute("rank", user.getRank());
+            	session.setAttribute("name", user.getName());
             	System.out.println("로그인 성공");		// 동작 확인용
             	
                 return "redirect:/Mainpage?success=true";	// 로그인 잘 됫는지 확인용으로 success=true 넣었습니다
@@ -189,12 +191,13 @@ public class MainController
     	Integer age = (Integer) session.getAttribute("age");
     	String preference = (String) session.getAttribute("preference");
     	Integer rank = (Integer) session.getAttribute("rank");
-    	
+    	String name = (String) session.getAttribute("name");
         System.out.println("메인 페이지 진입");
         System.out.println("id : " + id);
         System.out.println("age : " + age);
         System.out.println("preference : " + preference);
         System.out.println("rank : " + rank);
+        System.out.println("name : " + name);
         
         return "Mainpage";
     }
@@ -373,12 +376,14 @@ public class MainController
     	Integer age = (Integer) session.getAttribute("age");
     	String preference = (String) session.getAttribute("preference");
     	Integer rank = (Integer) session.getAttribute("rank");
+    	String name = (String) session.getAttribute("name");
     	
         System.out.println("내정보 페이지 진입");
         System.out.println("id : " + id);
         System.out.println("age : " + age);
         System.out.println("preference : " + preference);
         System.out.println("rank : " + rank);
+        System.out.println("name : " + name);
     	
         return "hjs_myInfo";
     }
@@ -423,45 +428,19 @@ public class MainController
         return null;  // 일치하는 트랙을 찾지 못한 경우 null 반환
     }
     
-    @GetMapping("/infos")
-    @ResponseBody
-    public String ajaxTrackInfos(HttpServletRequest request, HttpServletResponse response) {
-    	
-    	// session
-    	HttpSession session = request.getSession();
-    	
-    	
-    	List<TrackInfo> trackInfoList = null;
-    	try {
-    		trackInfoList = functions.getTrackInfoFromXlsx();
-    		session.setAttribute("trackInfoList", trackInfoList);
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	} catch (ParseException e) {
-    		e.printStackTrace();
-    	}
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonResult ="";
-    	try {
-    		jsonResult = mapper.writeValueAsString(trackInfoList);
-    	} catch (JsonProcessingException e) {
-    		e.printStackTrace();
-    	}
-    	response.setContentType("application/json; charset=UTF-8"); // content type 설정
-    	
-    	return jsonResult;
-    }
     
     // 검색 기능 컨트롤러
     @GetMapping("/search/{keyword}")
     public String search(@PathVariable("keyword") String keyword, Model model, HttpServletRequest request) {
-        // session
+    	
+        // 세션에 리스트 생성
         HttpSession session = request.getSession();
         List<TrackInfo> list = (List<TrackInfo>) session.getAttribute("trackInfoList");
-
+        
+        // 소문자 처리용 메소드
         String lowerCaseKeyword = keyword.toLowerCase();
 
-        // Get track data list from Excel file.
+        // getTrackInfoFromXlsx() 메소드를 사용해 데이터 불러오기
         List<TrackInfo> trackInfoList = null;
         try {
             trackInfoList = functions.getTrackInfoFromXlsx();
@@ -469,7 +448,7 @@ public class MainController
             e.printStackTrace();
         }
 
-        // Filter track data according to search keyword
+        // 검색어에 맞는 데이터들을 찾아서 filteredList에 저장
         List<TrackInfo> filteredList = trackInfoList.stream()
                 .filter(trackInfo ->
                         trackInfo.getAlbum_image().toLowerCase().contains(lowerCaseKeyword)

@@ -91,6 +91,10 @@ h1 {
 		            <div class="info-label">ID:</div>
 		            <span class="info-value">${id}</span>
 		        </div>
+		        <div class="info-item">
+		            <div class="info-label">이름:</div>
+		            <span class="info-value">${name}</span>
+		        </div>
 		        <div class="info-item_age">
 		            <div class="info-label">나이:</div>
 		            <span class="info-value">${age}</span>
